@@ -16,6 +16,4 @@ class Goblin extends MoveableObjekt {
         }, 1000 / 60);
 
     }
-
-
 }
