@@ -17,9 +17,11 @@ class World {
         new BackgrounfObject(0, 'img/background/rock2.png'),
     ];
     ctx;
+    keyboard;
 
-    constructor(canvas) {
+    constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
+        this.keyboard = keyboard;
         this.draw();
     }
 
