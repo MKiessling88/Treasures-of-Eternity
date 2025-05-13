@@ -1,4 +1,4 @@
-class MoveableObjekt {
+class MoveableObjekt{
     X;
     Y;
     width;
@@ -25,6 +25,6 @@ class MoveableObjekt {
     }
 
     moveRight() {
-
+        this.X += 10;
     }
 };

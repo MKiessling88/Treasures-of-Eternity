@@ -10,20 +10,24 @@ class World {
         new Cloud(740),
     ];
     backgroundObjects = [
-        new BackgrounfObject(0, 'img/background/bg.png'),
-        new BackgrounfObject(0, 'img/background/rock5.png'),
-        new BackgrounfObject(0, 'img/background/rock3.png'),
-        new BackgrounfObject(0, 'img/background/rock1.png'),
-        new BackgrounfObject(0, 'img/background/rock2.png'),
+        new BackgroundObject(0, 'img/background/bg.png'),
+        new BackgroundObject(0, 'img/background/rock5.png'),
+        new BackgroundObject(0, 'img/background/rock3.png'),
+        new BackgroundObject(0, 'img/background/rock1.png'),
+        new BackgroundObject(0, 'img/background/rock2.png'),
     ];
+    canvas;
     ctx;
     keyboard;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
+        this.canvas = canvas;
         this.keyboard = keyboard;
-        this.draw();
+
         this.setWorld();
+        this.draw();
+
     }
 
     setWorld() {
