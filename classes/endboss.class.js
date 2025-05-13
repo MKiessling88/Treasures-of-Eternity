@@ -26,4 +26,4 @@ class Endboss extends MoveableObjekt{
                 this.animateImages(this.Images_IDLE);
         },1000/5);
     }
-}
+} 
