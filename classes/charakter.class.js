@@ -1,4 +1,5 @@
 class Charakter extends MoveableObjekt{
+    world;
     X = 100; 
     Y = 320;
     width = 100;
