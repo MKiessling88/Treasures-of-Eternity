@@ -5,6 +5,8 @@ class MoveableObjekt{
     height;
     Image;
     imageCache = [];
+    otherDirection = false;
+    currentImage = 0;
 
 
     loadImage(path) {
@@ -25,6 +27,12 @@ class MoveableObjekt{
     }
 
     moveRight() {
-        this.X += 10;
+            this.X += 10;
+    }
+
+    animateImages(images) {
+        let path = images[this.currentImage];
+        this.Image = this.imageCache[path];
+        this.currentImage = (this.currentImage + 1) % images.length;
     }
 };

@@ -4,22 +4,13 @@ class Charakter extends MoveableObjekt{
     width = 100;
     height = 100;
     Images_WALK = [
-        'img/charakter/idle/idle1.png',
-        'img/charakter/idle/idle2.png',
-        'img/charakter/idle/idle3.png',
-        'img/charakter/idle/idle4.png',
-        'img/charakter/idle/idle5.png',
-        'img/charakter/idle/idle6.png',
-        'img/charakter/idle/idle7.png',
-        'img/charakter/idle/idle8.png',
-        'img/charakter/idle/idle9.png',
-        'img/charakter/idle/idle10.png',
-        'img/charakter/idle/idle11.png',
-        'img/charakter/idle/idle12.png',
-        'img/charakter/idle/idle13.png',
-        'img/charakter/idle/idle14.png',
+        'img/charakter/walk/walk1.png',
+        'img/charakter/walk/walk2.png',
+        'img/charakter/walk/walk3.png',
+        'img/charakter/walk/walk4.png',
+        'img/charakter/walk/walk5.png',
+        'img/charakter/walk/walk6.png',
     ];
-    currentImage = 0;
     world;
 
     constructor(){
@@ -31,14 +22,32 @@ class Charakter extends MoveableObjekt{
     }
 
     animate(){
+
+setInterval(() => {
+    if (this.world.keyboard.RIGHT && this.X < this.world.level.levelLength + this.world.canvas.width - 50) {
+        this.X += 3; 
+        this.otherDirection = false;               
+    }
+    if (this.world.keyboard.LEFT && this.X > -400) {
+        this.X -= 3;  
+        this.otherDirection = true;
+    }
+
+    // Kamera-Versatz berechnen
+    let cameraTarget = -this.X + 100;
+
+    // Begrenzungen für die Kamera
+    let maxCameraOffset = -this.world.level.levelLength - 100; // Kamera hört bei 2000px auf
+    let minCameraOffset = 500;     // Kamera geht nicht weiter als zum Anfang
+
+    this.world.camera_X = Math.max(Math.min(cameraTarget, minCameraOffset), maxCameraOffset);
+}, 1000 / 60);
+
         setInterval(() => {
-            if (this.world.keyboard.RIGHT && this.world.keyboard.LEFT) {
-                let path = this.Images_WALK[this.currentImage];
-                this.Image = this.imageCache[path];
-                this.currentImage = (this.currentImage + 1) % this.Images_WALK.length;
-                console.log('test'); 
+            if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT && this.X > -630) {
+                this.animateImages(this.Images_WALK);
             }
-        },1000/5);
+        },80);
     }
 
     jump(){

@@ -1,29 +1,16 @@
 class World {
     charakter = new Charakter();
-    enemys = [
-        new Goblin(),
-        new Goblin(),
-        new Goblin(),
-    ];
-    clouds = [
-        new Cloud(0),
-        new Cloud(740),
-    ];
-    backgroundObjects = [
-        new BackgroundObject(0, 'img/background/bg.png'),
-        new BackgroundObject(0, 'img/background/rock5.png'),
-        new BackgroundObject(0, 'img/background/rock3.png'),
-        new BackgroundObject(0, 'img/background/rock1.png'),
-        new BackgroundObject(0, 'img/background/rock2.png'),
-    ];
     canvas;
     ctx;
     keyboard;
+    camera_X = 0;
+    level;
 
-    constructor(canvas, keyboard) {
+    constructor(canvas, keyboard, level) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
+        this.level = level;
 
         this.setWorld();
         this.draw();
@@ -41,11 +28,15 @@ class World {
     draw() {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
-        this.addObjectsToMap(this.backgroundObjects);
-        this.addObjectsToMap(this.clouds);
-        this.addObjectsToMap(this.enemys);
+        this.ctx.translate(this.camera_X, 0);
+
+        this.addObjectsToMap(this.level.backgroundObjects);
+        this.addObjectsToMap(this.level.clouds);
+        this.addObjectsToMap(this.level.enemys);
 
         this.addToMap(this.charakter);
+
+        this.ctx.translate(-this.camera_X, 0);
 
         let self = this;
         requestAnimationFrame(function () {
@@ -66,7 +57,16 @@ class World {
      * Draws the given MoveableObjekt instance on the canvas at its specified position.
      * @param {MoveableObjekt} mo - The object to be drawn on the canvas.
      */
-    addToMap(mo){
-        this.ctx.drawImage(mo.Image, mo.X, mo.Y, mo.width, mo.height);
+addToMap(mo) {
+    if (mo.otherDirection) {
+        this.ctx.save();
+        this.ctx.translate(mo.X + mo.width / 2, mo.Y); // Verschiebung zum richtigen Punkt
+        this.ctx.scale(-1, 1); // Spiegeln
+        this.ctx.drawImage(mo.Image, 0, 0, mo.width, mo.height); // Bild an der richtigen Position zeichnen
+        this.ctx.restore();
+    } else {
+        this.ctx.drawImage(mo.Image, mo.X, mo.Y, mo.width, mo.height); // Normales Zeichnen
     }
+}
+
 }

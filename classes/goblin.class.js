@@ -10,6 +10,7 @@ class Goblin extends MoveableObjekt {
         'img/goblin/walk6.png',
     ];
     currentImage = 0;
+        otherDirection = true;
 
     constructor(x) {
         super();
@@ -24,9 +25,7 @@ class Goblin extends MoveableObjekt {
 
     animate(){
         setInterval(() => {
-            let path = this.Images_WALK[this.currentImage];
-            this.Image = this.imageCache[path];
-            this.currentImage = (this.currentImage + 1) % this.Images_WALK.length;
+                this.animateImages(this.Images_WALK);
         },1000/5);
     }
 
