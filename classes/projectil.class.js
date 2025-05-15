@@ -20,33 +20,32 @@ class Projectil extends MoveableObjekt {
     offset_Height = 15;
     startX = this.X;
 
-    constructor(x, y) {
+    constructor(x, y, otherDirection) {
         super();
         this.loadImage(this.Images[0]);
         this.loadImages(this.Images);
         this.X = x;
         this.Y = y;
         this.startX = this.X;
+        this.otherDirection = otherDirection;
 
-        this.animate();
         this.move();
         this.remove();
     }
 
-
-    animate() {
-        this.animateImagesOnce(this.Images);
-    }
-
     move() {
         setInterval(() => {
-            this.X += 10;
-        }, 1000 / 40);
+            if (this.otherDirection) {
+                this.X -= 6;
+            } else {
+                this.X += 6;
+            }
+        }, 1000 / 60);
     }
 
     remove() {
         setInterval(() => {
-            if (this.X >= this.startX + 250) {
+            if (this.X >= this.startX + 740 || this.X <= this.startX - 740) {
                 const index = world.projectils.indexOf(this);
                 if (index > -1) {
                     world.projectils.splice(index, 1);
