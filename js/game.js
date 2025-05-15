@@ -6,11 +6,11 @@ let level = level1;
 
 function init() {
     canvas = document.getElementById('canvas');
-    world =new World(canvas, keyboard, level);
+    world = new World(canvas, keyboard, level);
 }
 
 
-window.addEventListener('keydown' , (e) => {
+window.addEventListener('keydown', (e) => {
     if (e.keyCode == 32)
         keyboard.SPACE = true;
     if (e.keyCode == 37)
@@ -21,10 +21,12 @@ window.addEventListener('keydown' , (e) => {
         keyboard.RIGHT = true;
     if (e.keyCode == 40)
         keyboard.DOWN = true;
-    //console.log(e);
+    if (e.keyCode == 88)
+        keyboard.X = true;
+    //console.log(e.keyCode);
 });
 
-window.addEventListener('keyup' , (e) => {
+window.addEventListener('keyup', (e) => {
     if (e.keyCode == 32)
         keyboard.SPACE = false;
     if (e.keyCode == 37)
@@ -35,4 +37,6 @@ window.addEventListener('keyup' , (e) => {
         keyboard.RIGHT = false;
     if (e.keyCode == 40)
         keyboard.DOWN = false;
+    if (e.keyCode == 88)
+        keyboard.X = false;
 });

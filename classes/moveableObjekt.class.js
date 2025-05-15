@@ -10,6 +10,8 @@ class MoveableObjekt {
     speedY = 0;
     acceleration = 0.3;
     life = 100;
+    isHurt = false;
+    isAttacking = false;
 
 
     loadImage(path) {
@@ -51,7 +53,7 @@ class MoveableObjekt {
             const path = images[frame];
             this.Image = this.imageCache[path];
             frame++;
-        }, 1000 / 15); // z. B. 15 FPS
+        }, 1000 / 10); // z. B. 15 FPS
     }
 
     applyGravity() {
@@ -94,8 +96,20 @@ class MoveableObjekt {
     }
 
     hit() {
-        if (this.life > 0) {
-            this.life -= 10; 
+        if (this.life > 0 && !this.isHurt) {
+            this.life -= 10;
+            this.isHurt = true;
+
+            if (this.isDead()) {
+                this.animateImagesOnce(this.Images_DEAD);
+            } else if (this.isHurt) {
+                this.animateImagesOnce(this.Images_HURT);
+            }
+
+            // Nach 1 Sekunde darf wieder Schaden genommen werden
+            setTimeout(() => {
+                this.isHurt = false;
+            }, 1000);
         }
     }
 

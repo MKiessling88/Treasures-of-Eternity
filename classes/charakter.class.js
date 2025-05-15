@@ -22,7 +22,33 @@ class Charakter extends MoveableObjekt {
         'img/charakter/jump/jump4.png',
         'img/charakter/jump/jump5.png',
         'img/charakter/jump/jump6.png',
-        // 'img/charakter/jump/jump7.png',
+    ]
+    Images_DEAD = [
+        'img/charakter/dead/death1.png',
+        'img/charakter/dead/death2.png',
+        'img/charakter/dead/death3.png',
+        'img/charakter/dead/death4.png',
+        'img/charakter/dead/death5.png',
+        'img/charakter/dead/death6.png',
+        'img/charakter/dead/death7.png',
+        'img/charakter/dead/death8.png',
+        'img/charakter/dead/death9.png',
+        'img/charakter/dead/death10.png',
+    ];
+    Images_HURT = [
+        'img/charakter/hurt/hurt1.png',
+        'img/charakter/hurt/hurt2.png',
+        'img/charakter/hurt/hurt3.png',
+        'img/charakter/hurt/hurt4.png',
+    ];
+    Images_ATTACK = [
+        'img/charakter/attack/attack1.png',
+        'img/charakter/attack/attack2.png',
+        'img/charakter/attack/attack3.png',
+        'img/charakter/attack/attack4.png',
+        'img/charakter/attack/attack5.png',
+        'img/charakter/attack/attack6.png',
+        'img/charakter/attack/attack7.png',
     ]
     world;
     isJumping = false;
@@ -32,15 +58,19 @@ class Charakter extends MoveableObjekt {
         this.loadImage('img/charakter/mage.png');
         this.loadImages(this.Images_WALK);
         this.loadImages(this.Images_JUMP);
+        this.loadImages(this.Images_DEAD);
+        this.loadImages(this.Images_HURT);
+        this.loadImages(this.Images_ATTACK);
 
         this.animate();
         this.applyGravity();
         this.jump();
+        this.attack();
     }
 
     animate() {
         setInterval(() => {
-            if (!this.isDead()) {
+            if (!this.isDead() && !this.isAttacking) {
                 if (this.world.keyboard.RIGHT && this.X < this.world.level.levelLength + this.world.canvas.width - 50) {
                     this.X += 3;
                     this.otherDirection = false;
@@ -54,8 +84,10 @@ class Charakter extends MoveableObjekt {
         }, 1000 / 60);
 
         setInterval(() => {
-            if (this.world.keyboard.RIGHT && this.isOnGround() && !this.isDead() || this.world.keyboard.LEFT && this.isOnGround() && !this.isDead()) {
+            if (this.world.keyboard.RIGHT && this.isOnGround() && !this.isDead() && !this.isAttacking || this.world.keyboard.LEFT && this.isOnGround() && !this.isDead() && !this.isAttacking) {
                 this.animateImages(this.Images_WALK);
+            } else if (!this.isAttacking && !this.isDead() && !this.isJumping && !this.isHurt) {
+                this.loadImage('img/charakter/mage.png');
             }
         }, 80);
     }
@@ -64,7 +96,7 @@ class Charakter extends MoveableObjekt {
         setInterval(() => {
             const spacePressed = this.world.keyboard.SPACE;
 
-            if (spacePressed && this.isOnGround() && !this.isJumping && !this.isDead()) {
+            if (spacePressed && this.isOnGround() && !this.isJumping && !this.isDead() && !this.isAttacking) {
                 this.speedY = -8;
                 this.animateImagesOnce(this.Images_JUMP); // Nur 1x!
                 this.isJumping = true;
@@ -76,6 +108,21 @@ class Charakter extends MoveableObjekt {
             }
         }, 1000 / 60);
     }
+
+attack() {
+    setInterval(() => {
+        if (this.world.keyboard.X && !this.isAttacking) {
+            this.isAttacking = true;
+            this.animateImagesOnce(this.Images_ATTACK);
+
+            // Setze Flag nach Ende der Animation wieder zurück
+            setTimeout(() => {
+                this.isAttacking = false;
+            }, 750);
+        }
+    }, 1000 / 60); // 60 FPS → häufig genug, aber effizient
+}
+
 
     camera() {
         // Kamera-Versatz berechnen
