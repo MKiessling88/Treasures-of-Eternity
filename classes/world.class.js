@@ -5,6 +5,10 @@ class World {
     keyboard;
     camera_X = 0;
     level;
+    interface = [new Interface('img/interface/square_border_big_bg.png', 12.5, 12.5, 45, 45),
+    new Interface('img/interface/con2.png', 12.5, 12.5, 45, 45),
+    new Interface('img/interface/square_border_big_full_empty.png', 10, 10, 50, 50),
+    ];
     projectils = [];
 
     constructor(canvas, keyboard, level) {
@@ -19,14 +23,14 @@ class World {
 
     }
 
-setWorld() {
-    this.charakter.world = this;
+    setWorld() {
+        this.charakter.world = this;
 
-    // Welt an alle Gegner im Level weitergeben
-    this.level.enemys.forEach(enemy => {
-        enemy.world = this;
-    });
-}
+        // Welt an alle Gegner im Level weitergeben
+        this.level.enemys.forEach(enemy => {
+            enemy.world = this;
+        });
+    }
     /**
      * Clears the canvas, draws all objects of the backgroundObjects, enemys and clouds arrays and the charakter.
      * Then calls itself with requestAnimationFrame to draw the next frame.
@@ -44,6 +48,8 @@ setWorld() {
         this.addToMap(this.charakter);
 
         this.ctx.translate(-this.camera_X, 0);
+
+        this.addObjectsToMap(this.interface);
 
         let self = this;
         requestAnimationFrame(function () {

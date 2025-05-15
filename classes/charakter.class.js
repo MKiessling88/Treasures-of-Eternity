@@ -66,6 +66,7 @@ class Charakter extends MoveableObjekt {
         this.applyGravity();
         this.jump();
         this.attack();
+        this.resourceGenerator();
     }
 
     animate() {
@@ -111,15 +112,16 @@ class Charakter extends MoveableObjekt {
 
 attack() {
     setInterval(() => {
-        if (this.world.keyboard.X && !this.isAttacking) {
+        if (this.world.keyboard.X && !this.isAttacking && this.mana >= 20) {
             this.isAttacking = true;
             this.animateImagesOnce(this.Images_ATTACK);
-            this.world.projectils.push(new Projectil(this.X + 45, this.Y + 25, this.otherDirection));
+            this.world.projectils.push(new Projectil(this.X + 45, this.Y + 25, this.otherDirection, this.world));
+            this.mana -= 20;
 
             // Setze Flag nach Ende der Animation wieder zurück
             setTimeout(() => {
                 this.isAttacking = false;
-            }, 750);
+            }, 1000);
         }
     }, 1000 / 60); // 60 FPS → häufig genug, aber effizient
 }
@@ -133,5 +135,13 @@ attack() {
         let minCameraOffset = 500;     // Kamera geht nicht weiter als zum Anfang
 
         this.world.camera_X = Math.max(Math.min(cameraTarget, minCameraOffset), maxCameraOffset);
+    }
+
+    resourceGenerator() {
+        setInterval(() => {
+            if (this.mana < 100) {
+                this.mana += 1;
+            }
+        }, 1000);
     }
 }

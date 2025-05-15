@@ -19,8 +19,10 @@ class Projectil extends MoveableObjekt {
     offset_Width = 35;
     offset_Height = 15;
     startX = this.X;
+    colliding = false;
+    world;
 
-    constructor(x, y, otherDirection) {
+    constructor(x, y, otherDirection, world) {
         super();
         this.loadImage(this.Images[0]);
         this.loadImages(this.Images);
@@ -28,41 +30,57 @@ class Projectil extends MoveableObjekt {
         this.Y = y;
         this.startX = this.X;
         this.otherDirection = otherDirection;
+        this.world = world;
 
         this.move();
         this.remove();
-        this.checkEnemyCollisions();
     }
 
     move() {
-        setInterval(() => {
-            if (this.otherDirection) {
-                this.X -= 6;
-            } else {
-                this.X += 6;
+        this.startX = this.X; // Startpunkt merken
+
+        const moveInterval = setInterval(() => {
+            if (this.colliding) return;
+
+            // Kollision mit Gegnern prüfen
+            this.world.level.enemys.forEach(enemy => {
+                if (this.isCollidingWith(enemy) && !this.colliding) {
+                    this.colliding = true;
+                    enemy.hit();
+                    this.explode(); // Animation + Entfernen
+                }
+            });
+
+            // Nur bewegen, wenn keine Kollision
+            if (!this.colliding) {
+                if (this.otherDirection) {
+                    this.X -= 6;
+                } else {
+                    this.X += 6;
+                }
+
+                // Reichweite überschritten?
+                const distance = Math.abs(this.X - this.startX);
+                if (distance > 740) {
+                    this.remove();
+                    clearInterval(moveInterval); // Bewegung stoppen
+                }
             }
         }, 1000 / 60);
     }
 
     remove() {
-        setInterval(() => {
-            if (this.X >= this.startX + 740 || this.X <= this.startX - 740) {
-                const index = world.projectils.indexOf(this);
-                if (index > -1) {
-                    world.projectils.splice(index, 1);
-                }
-            }
-        }, 1000 / 60);
+        const index = this.world.projectils.indexOf(this);
+        if (index > -1) {
+            this.world.projectils.splice(index, 1);
+        }
     }
 
-        checkEnemyCollisions() {
-        setInterval(() => {
-            world.level.enemys.forEach((enemy) => {
-                if (this.isCollidingWith(enemy)) {
-                    enemy.hit();
-                    console.log('hit');
-                }
-            });
-        }, 100);
+
+    explode() {
+        this.animateImagesOnce(this.Images); // z. B. Explosionsbilder
+        setTimeout(() => {
+            this.remove();
+        }, this.Images.length * 100); // z. B. 6 Bilder × 100ms
     }
 }

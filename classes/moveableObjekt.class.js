@@ -10,6 +10,7 @@ class MoveableObjekt {
     speedY = 0;
     acceleration = 0.3;
     life = 100;
+    mana = 100;
     isHurt = false;
     isAttacking = false;
 
@@ -102,7 +103,9 @@ class MoveableObjekt {
 
             if (this.isDead()) {
                 this.animateImagesOnce(this.Images_DEAD);
-                this.remove();
+                if (this instanceof Goblin || this instanceof Endboss) {
+                    this.remove();
+                }
             } else if (this.isHurt) {
                 this.animateImagesOnce(this.Images_HURT);
             }

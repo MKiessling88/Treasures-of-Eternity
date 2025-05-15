@@ -38,7 +38,7 @@ class Goblin extends MoveableObjekt {
         this.loadImages(this.Images_DEAD);
         this.X = 250 + Math.random() * 500;
         this.Y = 350;
-        //this.moveLeft();
+        this.moveLeft();
 
         this.animate();
     }
@@ -53,9 +53,10 @@ class Goblin extends MoveableObjekt {
 
     moveLeft() {
         setInterval(() => {
-            this.X -= 0.25;
+            if (!this.isHurt && !this.isDead()) {
+                    this.X -= 0.25;
+            }
         }, 1000 / 60);
-
     }
 
     remove() {
