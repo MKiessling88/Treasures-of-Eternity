@@ -19,10 +19,14 @@ class World {
 
     }
 
-    setWorld() {
-        this.charakter.world = this;
-    }
+setWorld() {
+    this.charakter.world = this;
 
+    // Welt an alle Gegner im Level weitergeben
+    this.level.enemys.forEach(enemy => {
+        enemy.world = this;
+    });
+}
     /**
      * Clears the canvas, draws all objects of the backgroundObjects, enemys and clouds arrays and the charakter.
      * Then calls itself with requestAnimationFrame to draw the next frame.

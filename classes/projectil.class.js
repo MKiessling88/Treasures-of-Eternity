@@ -31,6 +31,7 @@ class Projectil extends MoveableObjekt {
 
         this.move();
         this.remove();
+        this.checkEnemyCollisions();
     }
 
     move() {
@@ -52,5 +53,16 @@ class Projectil extends MoveableObjekt {
                 }
             }
         }, 1000 / 60);
+    }
+
+        checkEnemyCollisions() {
+        setInterval(() => {
+            world.level.enemys.forEach((enemy) => {
+                if (this.isCollidingWith(enemy)) {
+                    enemy.hit();
+                    console.log('hit');
+                }
+            });
+        }, 100);
     }
 }

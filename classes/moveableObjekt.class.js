@@ -102,6 +102,7 @@ class MoveableObjekt {
 
             if (this.isDead()) {
                 this.animateImagesOnce(this.Images_DEAD);
+                this.remove();
             } else if (this.isHurt) {
                 this.animateImagesOnce(this.Images_HURT);
             }

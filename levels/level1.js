@@ -1,6 +1,6 @@
 const level1 = new Level(
     [
-        // new Goblin(),
+        new Goblin(),
         // new Goblin(),
         // new Goblin(),
         // new Endboss(300),
