@@ -114,6 +114,7 @@ attack() {
         if (this.world.keyboard.X && !this.isAttacking) {
             this.isAttacking = true;
             this.animateImagesOnce(this.Images_ATTACK);
+            this.world.projectils.push(new Projectil(this.X + 45, this.Y + 25));
 
             // Setze Flag nach Ende der Animation wieder zurück
             setTimeout(() => {

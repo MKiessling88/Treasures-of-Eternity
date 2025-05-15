@@ -118,7 +118,7 @@ class MoveableObjekt {
     }
 
     drawFrame(ctx, obj) {
-        if (this instanceof Charakter || this instanceof Goblin || this instanceof Endboss) {
+        if (this instanceof Charakter || this instanceof Goblin || this instanceof Endboss || this instanceof Projectil) {
             ctx.strokeStyle = 'red';
             ctx.lineWidth = 2;
             ctx.strokeRect(

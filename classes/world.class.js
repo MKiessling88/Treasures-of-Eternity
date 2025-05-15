@@ -5,6 +5,7 @@ class World {
     keyboard;
     camera_X = 0;
     level;
+    projectils = [];
 
     constructor(canvas, keyboard, level) {
         this.ctx = canvas.getContext('2d');
@@ -34,6 +35,7 @@ class World {
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.enemys);
+        this.addObjectsToMap(this.projectils);
 
         this.addToMap(this.charakter);
 
