@@ -1,7 +1,11 @@
-class Endboss extends MoveableObjekt{
+class Endboss extends MoveableObjekt {
     height = 200;
     width = 200;
     Y = 245;
+    offset_X = 0;
+    offset_Y = 75;
+    offset_Width = 50;
+    offset_Height = 90;
     otherDirection = true;
     Images_IDLE = [
         'img/endboss/idle/Idle1.png',
@@ -11,7 +15,7 @@ class Endboss extends MoveableObjekt{
 
 
 
-    constructor(x){
+    constructor(x) {
         super();
         this.loadImage(this.Images_IDLE[0]);
         this.loadImages(this.Images_IDLE);
@@ -21,9 +25,9 @@ class Endboss extends MoveableObjekt{
     }
 
 
-        animate(){
+    animate() {
         setInterval(() => {
-                this.animateImages(this.Images_IDLE);
-        },1000/5);
+            this.animateImages(this.Images_IDLE);
+        }, 1000 / 5);
     }
 } 

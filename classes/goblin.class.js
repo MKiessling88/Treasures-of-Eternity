@@ -1,6 +1,10 @@
 class Goblin extends MoveableObjekt {
     height = 80;
     width = 80;
+    offset_X = -10;
+    offset_Y = 20;
+    offset_Width = 30;
+    offset_Height = 40;
     Images_WALK = [
         'img/goblin/walk1.png',
         'img/goblin/walk2.png',
@@ -10,7 +14,7 @@ class Goblin extends MoveableObjekt {
         'img/goblin/walk6.png',
     ];
     currentImage = 0;
-        otherDirection = true;
+    otherDirection = true;
 
     constructor(x) {
         super();
@@ -23,10 +27,10 @@ class Goblin extends MoveableObjekt {
         this.animate();
     }
 
-    animate(){
+    animate() {
         setInterval(() => {
-                this.animateImages(this.Images_WALK);
-        },1000/5);
+            this.animateImages(this.Images_WALK);
+        }, 1000 / 5);
     }
 
     moveLeft() {

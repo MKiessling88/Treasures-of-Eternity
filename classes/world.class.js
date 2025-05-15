@@ -14,6 +14,7 @@ class World {
 
         this.setWorld();
         this.draw();
+        this.checkEnemyCollisions();
 
     }
 
@@ -40,7 +41,8 @@ class World {
 
         let self = this;
         requestAnimationFrame(function () {
-            self.draw() });
+            self.draw()
+        });
     }
 
     /**
@@ -53,20 +55,36 @@ class World {
         });
     }
 
+
     /**
-     * Draws the given MoveableObjekt instance on the canvas at its specified position.
-     * @param {MoveableObjekt} mo - The object to be drawn on the canvas.
+     * Draws a given MoveableObjekt onto the canvas.
+     * If the MoveableObjekt's otherDirection field is true, the image is drawn mirrored.
+     * @param {MoveableObjekt} mo - The MoveableObjekt to draw.
      */
-addToMap(mo) {
-    if (mo.otherDirection) {
-        this.ctx.save();
-        this.ctx.translate(mo.X + mo.width / 2, mo.Y); // Verschiebung zum richtigen Punkt
-        this.ctx.scale(-1, 1); // Spiegeln
-        this.ctx.drawImage(mo.Image, 0, 0, mo.width, mo.height); // Bild an der richtigen Position zeichnen
-        this.ctx.restore();
-    } else {
-        this.ctx.drawImage(mo.Image, mo.X, mo.Y, mo.width, mo.height); // Normales Zeichnen
+    addToMap(mo) {
+
+        mo.drawFrame(this.ctx, mo);
+
+        if (mo.otherDirection) {
+            this.ctx.save();
+            this.ctx.translate(mo.X + mo.width / 2, mo.Y); // Verschiebung zum richtigen Punkt
+            this.ctx.scale(-1, 1); // Spiegeln
+            this.ctx.drawImage(mo.Image, 0, 0, mo.width, mo.height); // Bild an der richtigen Position zeichnen
+            this.ctx.restore();
+        } else {
+            this.ctx.drawImage(mo.Image, mo.X, mo.Y, mo.width, mo.height); // Normales Zeichnen
+        }
     }
-}
+
+    checkEnemyCollisions() {
+        setInterval(() => {
+            this.level.enemys.forEach((enemy) => {
+                if (this.charakter.isCollidingWith(enemy)) {
+                    this.charakter.hit();
+                    console.log(this.charakter.life);
+                }
+            });
+        }, 100);
+    }
 
 }
