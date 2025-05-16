@@ -117,6 +117,11 @@ class MoveableObjekt {
         }
     }
 
+    resourceBarSync() {
+        this.world.interface[5].width = this.mana;
+        this.world.interface[4].width = this.life;
+    }
+
     isDead() {
         return this.life <= 0;
     }
@@ -143,6 +148,5 @@ class MoveableObjekt {
                 obj.offset_Height ?? obj.height
             );
         }
-
     }
 };

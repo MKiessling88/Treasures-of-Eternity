@@ -149,4 +149,9 @@ class World {
             }
         }, 1000 / 60);
     }
+
+    renderEndScreen() {
+        document.getElementById('canvas').style.display = 'none';
+        document.getElementById('endscreen').classList.remove('hidden');
+    }
 }

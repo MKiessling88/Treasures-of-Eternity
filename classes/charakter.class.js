@@ -116,7 +116,7 @@ class Charakter extends MoveableObjekt {
                 this.isAttacking = true;
                 this.animateImagesOnce(this.Images_ATTACK);
                 this.world.projectils.push(new Projectil(this.X + 45, this.Y + 25, this.otherDirection, this.world));
-                this.mana -= 20;
+                this.mana -= 10;
 
                 // Setze Flag nach Ende der Animation wieder zurück
                 setTimeout(() => {
@@ -159,11 +159,18 @@ class Charakter extends MoveableObjekt {
                 this.mana += 1;
             }
             this.resourceBarSync();
+            this.winOrLose();
         }, 1000);
     }
 
-    resourceBarSync() {
-        this.world.interface[5].width = this.mana;
-        this.world.interface[4].width = this.life;
+    winOrLose() {
+        if (this.isDead()) {  
+            document.getElementById('endscreenImage').src = 'img/interface/knight_loose.png'; 
+            this.world.renderEndScreen();
+        }
+        if (this.world.level.enemys.length === 0) {
+            document.getElementById('endscreenImage').src = 'img/interface/knight_win.png'; 
+            this.world.renderEndScreen();
+        }
     }
 }

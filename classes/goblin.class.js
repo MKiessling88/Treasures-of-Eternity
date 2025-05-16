@@ -23,20 +23,20 @@ class Goblin extends MoveableObjekt {
         'img/goblin/death/death2.png',
         'img/goblin/death/death3.png',
         'img/goblin/death/death4.png',
-
     ];
     currentImage = 0;
     otherDirection = true;
-    life = 20;
+    life = 10;
     world;
 
-    constructor(x) {
+    constructor(x, world) {
         super();
         this.loadImage('img/goblin/walk1.png');
         this.loadImages(this.Images_WALK);
         this.loadImages(this.Images_HURT);
         this.loadImages(this.Images_DEAD);
-        this.X = 250 + Math.random() * 500;
+        this.world = world;
+        this.X = x || Math.floor(Math.random() * 1200) + 500;
         this.Y = 350;
         this.moveLeft();
 

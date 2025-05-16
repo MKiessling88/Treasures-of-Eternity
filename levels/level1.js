@@ -1,9 +1,9 @@
 const level1 = new Level(
     [
-        //new Goblin(),
-        // new Goblin(),
-        // new Goblin(),
-        new Endboss(300),
+        new Goblin(),
+        new Goblin(),
+        new Goblin(),
+        new Endboss(2400),
     ],
     [
         new Cloud(-740),
@@ -51,5 +51,7 @@ const level1 = new Level(
     [
         new CollectableHEART(50, 370),
         new CollectablePotion(100, 370),
+        new CollectablePotion(800, 370),
+        new CollectablePotion(1200, 370),
     ],
     2000);

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,14 +21,42 @@
     <script src="classes/level.class.js"></script>
     <script src="levels/level1.js"></script>
     <script src="js/game.js"></script>
+    <script src="js/assets.js"></script>
     <title>Treasures-of-Eternity</title>
 </head>
-<body onload="init()">
-    <h1>Treasures-of-Eternity</h1>
+
+<body>
+    <div id="startscreen">
+        <h1>Treasures of Eternity</h1>
+        <img src="img/interface/play_button.png" id="startImage" alt="Spiel starten" onclick="beginLoading()">
+        <div>
+            <div>
+                <p>Pfeiltasten: Bewegen</p>
+            </div>
+            <div>
+                <p>Space: Springen <br> X: Angriff</p>
+            </div>
+        </div>
+
+        <div id="loaderContainer" style="display: none;">
+            <div id="loaderBar"></div>
+        </div>
+        <p id="loadingText" style="display: none;">Lädt 0%</p>
+    </div>
+    <div id="endscreen" class="hidden">
+        <img id="endscreenImage" src="img/interface/knight_win.png">
+
+        <div id="endscreenButton">
+            <img class = "endscreenButtonimg" onclick="goToStart()" src="img/interface/button_yellow.png" alt="">
+            <p class = "endscreenButtonText" onclick="goToStart()">Zum Startmenü</p>
+        </div>
+    </div>
+    </div>
 
     <canvas id="canvas" width="740" height="480">
 
     </canvas>
-    
+
 </body>
+
 </html>
