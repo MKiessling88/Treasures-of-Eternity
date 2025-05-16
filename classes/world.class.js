@@ -24,7 +24,7 @@ class World {
 
         this.setWorld();
         this.draw();
-        this.checkEnemyCollisions();
+        this.checkCollisions();
         this.updateClouds();
         this.generateTilesets();
     }
@@ -96,15 +96,32 @@ class World {
         }
     }
 
-    checkEnemyCollisions() {
+    checkCollisions() {
         setInterval(() => {
-            this.level.enemys.forEach((enemy) => {
-                if (this.charakter.isCollidingWith(enemy) && !enemy.isDead()) {
-                    this.charakter.hit();
-                    console.log(this.charakter.life);
-                }
-            });
+            this.checkEnemys();
+            this.checkCollectables();
         }, 100);
+    }
+
+    checkEnemys() {
+        this.level.enemys.forEach((enemy) => {
+            if (this.charakter.isCollidingWith(enemy) && !enemy.isDead()) {
+                this.charakter.hit();
+            }
+        });
+    }
+
+    checkCollectables() {
+        this.level.collectables.forEach((collectable) => {
+            if (this.charakter.isCollidingWith(collectable)) {
+                if (collectable instanceof CollectableHEART && this.charakter.life < 100) {
+                    this.charakter.addResource(collectable, 'life');
+                }
+                if (collectable instanceof CollectablePotion && this.charakter.mana < 100) {
+                    this.charakter.addResource(collectable, 'mana');
+                }
+            }
+        })
     }
 
     updateClouds() {

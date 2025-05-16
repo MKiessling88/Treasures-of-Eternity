@@ -50,5 +50,6 @@ const level1 = new Level(
     ],
     [
         new CollectableHEART(50, 370),
+        new CollectablePotion(100, 370),
     ],
     2000);

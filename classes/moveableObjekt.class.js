@@ -133,7 +133,7 @@ class MoveableObjekt {
     }
 
     drawFrame(ctx, obj) {
-        if (this instanceof Charakter || this instanceof Goblin || this instanceof Endboss || this instanceof Projectil) {
+        if (this instanceof Charakter || this instanceof Goblin || this instanceof Endboss || this instanceof Projectil || this instanceof CollectableHEART || this instanceof CollectablePotion) {
             ctx.strokeStyle = 'red';
             ctx.lineWidth = 2;
             ctx.strokeRect(

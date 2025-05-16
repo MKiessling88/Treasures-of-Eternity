@@ -110,22 +110,38 @@ class Charakter extends MoveableObjekt {
         }, 1000 / 60);
     }
 
-attack() {
-    setInterval(() => {
-        if (this.world.keyboard.X && !this.isAttacking && this.mana >= 20) {
-            this.isAttacking = true;
-            this.animateImagesOnce(this.Images_ATTACK);
-            this.world.projectils.push(new Projectil(this.X + 45, this.Y + 25, this.otherDirection, this.world));
-            //this.mana -= 20;
+    attack() {
+        setInterval(() => {
+            if (this.world.keyboard.X && !this.isAttacking && this.mana >= 20) {
+                this.isAttacking = true;
+                this.animateImagesOnce(this.Images_ATTACK);
+                this.world.projectils.push(new Projectil(this.X + 45, this.Y + 25, this.otherDirection, this.world));
+                this.mana -= 20;
 
-            // Setze Flag nach Ende der Animation wieder zurück
-            setTimeout(() => {
-                this.isAttacking = false;
-            }, 1000);
+                // Setze Flag nach Ende der Animation wieder zurück
+                setTimeout(() => {
+                    this.isAttacking = false;
+                }, 1000);
+            }
+        }, 1000 / 60); // 60 FPS → häufig genug, aber effizient
+    }
+
+    addResource(collectable, resource) {
+        if (resource === 'life') {
+            this.life += 50;
+            if (this.life > 100) {
+                this.life = 100;
+            }
         }
-    }, 1000 / 60); // 60 FPS → häufig genug, aber effizient
-}
-
+        if (resource === 'mana') {
+            this.mana += 50;
+            if (this.mana > 100) {
+                this.mana = 100;
+            }
+        }
+        this.world.level.collectables.splice(this.world.level.collectables.indexOf(collectable), 1);
+        this.resourceBarSync();
+    }
 
     camera() {
         // Kamera-Versatz berechnen

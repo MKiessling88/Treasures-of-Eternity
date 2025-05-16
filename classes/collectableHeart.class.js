@@ -13,10 +13,10 @@ class CollectableHEART extends MoveableObjekt {
     ];
     height = 25;
     width = 25;
-    offset_X = 15;
-    offset_Y = 30;
-    offset_Width = 35;
-    offset_Height = 15;
+    offset_X = 0;
+    offset_Y = 0;
+    offset_Width = 25;
+    offset_Height = 25;
 
     constructor(x, y) {
         super();
@@ -30,9 +30,7 @@ class CollectableHEART extends MoveableObjekt {
 
         animate() {
         setInterval(() => {
-            if (!this.isDead()) {
                 this.animateImages(this.images);
-            }
         }, 1000 / 5);
     }
 }
