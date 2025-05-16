@@ -58,15 +58,4 @@ class Goblin extends MoveableObjekt {
             }
         }, 1000 / 60);
     }
-
-    remove() {
-        setTimeout(() => {
-            if (this.life <= 0) {
-                const index = this.world.level.enemys.indexOf(this);
-                if (index > -1) {
-                    this.world.level.enemys.splice(index, 1);
-                }
-            }
-        }, 2000);
-    }
 }

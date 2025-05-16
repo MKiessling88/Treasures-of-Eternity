@@ -121,6 +121,17 @@ class MoveableObjekt {
         return this.life <= 0;
     }
 
+    remove() {
+        setTimeout(() => {
+            if (this.life <= 0) {
+                const index = this.world.level.enemys.indexOf(this);
+                if (index > -1) {
+                    this.world.level.enemys.splice(index, 1);
+                }
+            }
+        }, 2000);
+    }
+
     drawFrame(ctx, obj) {
         if (this instanceof Charakter || this instanceof Goblin || this instanceof Endboss || this instanceof Projectil) {
             ctx.strokeStyle = 'red';

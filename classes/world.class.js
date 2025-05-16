@@ -8,6 +8,11 @@ class World {
     interface = [new Interface('img/interface/square_border_big_bg.png', 12.5, 12.5, 45, 45),
     new Interface('img/interface/con2.png', 12.5, 12.5, 45, 45),
     new Interface('img/interface/square_border_big_full_empty.png', 10, 10, 50, 50),
+    new Interface('img/interface/stamina-energy-magic_bar_bg.png', 60, 12.5, 100, 45),
+    new Interface('img/interface/hp_full.png', 60, 12.5, 100, 22.5),
+    new Interface('img/interface/magic_full_bar.png', 60, 35, 100, 22.5),
+    new Interface('img/interface/hp_bar_border.png', 60, 12.5, 100, 25),
+    new Interface('img/interface/stamina-energy-magic_bar_border.png', 60, 35, 100, 22.5),
     ];
     projectils = [];
 
@@ -20,7 +25,8 @@ class World {
         this.setWorld();
         this.draw();
         this.checkEnemyCollisions();
-
+        this.updateClouds();
+        this.generateTilesets();
     }
 
     setWorld() {
@@ -42,7 +48,9 @@ class World {
 
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
+        this.addObjectsToMap(this.level.tilesets);
         this.addObjectsToMap(this.level.enemys);
+        this.addObjectsToMap(this.level.collectables);
         this.addObjectsToMap(this.projectils);
 
         this.addToMap(this.charakter);
@@ -91,7 +99,7 @@ class World {
     checkEnemyCollisions() {
         setInterval(() => {
             this.level.enemys.forEach((enemy) => {
-                if (this.charakter.isCollidingWith(enemy)) {
+                if (this.charakter.isCollidingWith(enemy) && !enemy.isDead()) {
                     this.charakter.hit();
                     console.log(this.charakter.life);
                 }
@@ -99,4 +107,29 @@ class World {
         }, 100);
     }
 
+    updateClouds() {
+        setInterval(() => {
+            let firstCloud = this.level.clouds[0];
+            if (firstCloud.X + firstCloud.width < -740) {
+                this.level.clouds.shift();
+
+                let lastCloud = this.level.clouds[this.level.clouds.length - 1];
+                let newX = lastCloud.X + lastCloud.width;
+
+                let newCloud = new Cloud(newX);
+                this.level.clouds.push(newCloud);
+            }
+        }, 1000 / 60);
+    };
+
+    generateTilesets() {
+        setInterval(() => {
+            let lastTileset = this.level.tilesets[this.level.tilesets.length - 1];
+            let worldLength = this.level.levelLength + 800;
+            if (lastTileset.X + lastTileset.width <= worldLength) {
+                this.level.tilesets.push(new Tileset('img/tilesets/tile2.png', lastTileset.X + lastTileset.width, 390));
+                this.level.tilesets.push(new Tileset('img/tilesets/tile5.png', lastTileset.X + lastTileset.width, 440));
+            }
+        }, 1000 / 60);
+    }
 }

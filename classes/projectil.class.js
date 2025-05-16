@@ -44,7 +44,7 @@ class Projectil extends MoveableObjekt {
 
             // Kollision mit Gegnern prüfen
             this.world.level.enemys.forEach(enemy => {
-                if (this.isCollidingWith(enemy) && !this.colliding) {
+                if (this.isCollidingWith(enemy) && !this.colliding && !enemy.isDead()) {
                     this.colliding = true;
                     enemy.hit();
                     this.explode(); // Animation + Entfernen

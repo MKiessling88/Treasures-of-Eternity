@@ -71,7 +71,7 @@ class Charakter extends MoveableObjekt {
 
     animate() {
         setInterval(() => {
-            if (!this.isDead() && !this.isAttacking) {
+            if (!this.isDead()) {
                 if (this.world.keyboard.RIGHT && this.X < this.world.level.levelLength + this.world.canvas.width - 50) {
                     this.X += 3;
                     this.otherDirection = false;
@@ -116,7 +116,7 @@ attack() {
             this.isAttacking = true;
             this.animateImagesOnce(this.Images_ATTACK);
             this.world.projectils.push(new Projectil(this.X + 45, this.Y + 25, this.otherDirection, this.world));
-            this.mana -= 20;
+            //this.mana -= 20;
 
             // Setze Flag nach Ende der Animation wieder zurück
             setTimeout(() => {
@@ -142,6 +142,12 @@ attack() {
             if (this.mana < 100) {
                 this.mana += 1;
             }
+            this.resourceBarSync();
         }, 1000);
+    }
+
+    resourceBarSync() {
+        this.world.interface[5].width = this.mana;
+        this.world.interface[4].width = this.life;
     }
 }

@@ -7,10 +7,22 @@ class Endboss extends MoveableObjekt {
     offset_Width = 50;
     offset_Height = 90;
     otherDirection = true;
+    life = 10;
     Images_IDLE = [
         'img/endboss/idle/Idle1.png',
         'img/endboss/idle/Idle2.png',
         'img/endboss/idle/Idle3.png',
+    ];
+    Images_HURT = [
+        'img/endboss/hurt/Hurt1.png',
+        'img/endboss/hurt/Hurt2.png',
+    ];
+    Images_DEAD = [
+        'img/endboss/dead/Death0.png',
+        'img/endboss/dead/Death1.png',
+        'img/endboss/dead/Death2.png',
+        'img/endboss/dead/Death3.png',
+        'img/endboss/dead/Death4.png',
     ];
 
 
@@ -19,6 +31,8 @@ class Endboss extends MoveableObjekt {
         super();
         this.loadImage(this.Images_IDLE[0]);
         this.loadImages(this.Images_IDLE);
+        this.loadImages(this.Images_HURT);
+        this.loadImages(this.Images_DEAD);
         this.X = x
 
         this.animate();
@@ -27,7 +41,9 @@ class Endboss extends MoveableObjekt {
 
     animate() {
         setInterval(() => {
-            this.animateImages(this.Images_IDLE);
-        }, 1000 / 5);
+            if (!this.isDead()) {
+                this.animateImages(this.Images_IDLE);
+            }
+        }, 1000 / 3);
     }
 } 
