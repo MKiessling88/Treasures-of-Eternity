@@ -43,10 +43,15 @@ class Endboss extends MoveableObjekt {
 
         this.animate();
         this.walking();
-        this.hitBoxAjustment();
+        this.hitBoxAdjustment();
     }
 
 
+/**
+ * Periodically animates the Endboss by cycling through its walking images.
+ * If the Endboss is not dead, it uses the walking images to create an animation effect.
+ * The animation updates every 200ms, providing a frame rate of 5 frames per second.
+ */
     animate() {
         setInterval(() => {
             if (!this.isDead()) {
@@ -55,6 +60,13 @@ class Endboss extends MoveableObjekt {
         }, 1000 / 5);
     }
 
+    /**
+     * Periodically moves the Endboss horizontally, alternating between moving left and right.
+     * The Endboss moves by 2 pixels every frame, providing a smooth motion effect.
+     * If the Endboss is not dead, it continuously moves between its start position and 200 pixels left/right of it.
+     * The movement is updated every 33ms, providing a frame rate of 30 frames per second.
+     * Additionally, the spawnEnemys() method is called every frame to spawn new enemies.
+     */
     walking() {
         setInterval(() => {
             if (!this.isDead()) {
@@ -71,10 +83,15 @@ class Endboss extends MoveableObjekt {
                 }
             }
             this.spawnEnemys();
-        }, 1000 / 30); // 30 FPS
+        }, 1000 / 30);
     }
 
-    hitBoxAjustment() {
+    /**
+     * Adjusts the hitbox offset of the Endboss periodically.
+     * Depending on the direction the Endboss is facing, the offset is set to create a realistic hitbox.
+     * This adjustment runs every 16.7ms to ensure smooth updates at a frame rate of 60 frames per second.
+     */
+    hitBoxAdjustment() {
         setInterval(() => {
             if (this.otherDirection) {
                 this.offset_X = 10;
@@ -84,6 +101,11 @@ class Endboss extends MoveableObjekt {
         }, 1000 / 60);
     }
 
+    /**
+     * Spawns three Goblins at random positions near the Endboss when its life falls below 15.
+     * The Goblins are spawned one second apart and are only spawned once per Endboss.
+     * The positions of the spawned Goblins are randomly chosen within a range of 100 pixels left and right of the Endboss.
+     */
     spawnEnemys() {
         if (this.life <= 15 && !this.enemysSpawned) {
             this.enemysSpawned = true;

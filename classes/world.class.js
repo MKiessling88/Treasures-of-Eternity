@@ -29,14 +29,16 @@ class World {
         this.generateTilesets();
     }
 
+    /**
+     * Sets the world of the charakter and all enemys in the level
+     */
     setWorld() {
         this.charakter.world = this;
-
-        // Welt an alle Gegner im Level weitergeben
         this.level.enemys.forEach(enemy => {
             enemy.world = this;
         });
     }
+    
     /**
      * Clears the canvas, draws all objects of the backgroundObjects, enemys and clouds arrays and the charakter.
      * Then calls itself with requestAnimationFrame to draw the next frame.
@@ -96,6 +98,11 @@ class World {
         }
     }
 
+    /**
+     * Checks for collisions between the player and enemies or collectables every 100ms.
+     * If the player collides with an enemy, the player's hit() method is called.
+     * If the player collides with a collectable and the player's life or mana is less than 100, the player's addResource() method is called.
+     */
     checkCollisions() {
         setInterval(() => {
             this.checkEnemys();
@@ -103,6 +110,10 @@ class World {
         }, 100);
     }
 
+    /**
+     * Checks for collisions between the character and each enemy in the level.
+     * If a collision is detected and the enemy is not dead, the character's hit() method is called.
+     */
     checkEnemys() {
         this.level.enemys.forEach((enemy) => {
             if (this.charakter.isCollidingWith(enemy) && !enemy.isDead()) {
@@ -111,6 +122,10 @@ class World {
         });
     }
 
+    /**
+     * Checks for collisions between the character and each collectable in the level.
+     * If a collision is detected and the character's life or mana is less than 100, the character's addResource() method is called with the collectable and the resource type ('life' or 'mana').
+     */
     checkCollectables() {
         this.level.collectables.forEach((collectable) => {
             if (this.charakter.isCollidingWith(collectable)) {
@@ -124,6 +139,10 @@ class World {
         })
     }
 
+    /**
+     * Updates the clouds every 1000/60ms.
+     * If the first cloud is no longer visible on the screen, it is removed and a new cloud is added to the end of the array.
+     */
     updateClouds() {
         setInterval(() => {
             let firstCloud = this.level.clouds[0];
@@ -139,6 +158,12 @@ class World {
         }, 1000 / 60);
     };
 
+    /**
+     * Periodically checks and generates new tilesets in the level.
+     * If the last tileset's position plus its width is within the level's length,
+     * new tilesets are appended to the tilesets array at specified positions.
+     * This ensures continuous generation of tiles as the player progresses.
+     */
     generateTilesets() {
         setInterval(() => {
             let lastTileset = this.level.tilesets[this.level.tilesets.length - 1];
@@ -150,6 +175,10 @@ class World {
         }, 1000 / 60);
     }
 
+    /**
+     * Hides the game canvas and shows the end screen.
+     * Called when the character has either won or lost the game.
+     */
     renderEndScreen() {
         document.getElementById('canvas').style.display = 'none';
         document.getElementById('endscreen').classList.remove('hidden');

@@ -28,6 +28,12 @@ class CollectablePotion extends MoveableObjekt {
         this.animate();
     }
 
+    /**
+     * Animates the potion by switching between the images every 200ms.
+     * The function is called every 200ms to update the animation.
+     * @function
+     * @memberof CollectablePotion
+     */
     animate() {
         setInterval(() => {
             this.animateImages(this.images);

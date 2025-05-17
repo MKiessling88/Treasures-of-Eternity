@@ -10,6 +10,10 @@ class Cloud extends MoveableObjekt{
     }
 
 
+    /**
+     * Animates the cloud by moving it to the left at a speed of 0.15 pixels per frame.
+     * The animation is done by setting an interval, which updates the cloud's X position every 16.67 milliseconds.
+     */
     animate() {
         setInterval(() => {
             this.X -= 0.15;

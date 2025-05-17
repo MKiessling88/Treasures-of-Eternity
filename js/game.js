@@ -5,21 +5,38 @@ let level = level1;
 
 let loadedImages = 0;
 
+/**
+ * Hides the startscreen and shows the canvas, then calls the init function
+ * to set up the game.
+ */
 function startGame() {
     document.getElementById('startscreen').style.display = 'none';
     document.getElementById('canvas').style.display = 'block';
     init();
 }
 
+/**
+ * Initializes the game by getting the canvas element from the DOM, creating a new
+ * World instance with the given canvas, keyboard and level, and calling the setWorld
+ * method of the World instance.
+ */
 function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard, level);
     world.setWorld();
 }
 
+/**
+ * Reloads the page, i.e. goes back to the startscreen.
+ */
 function goToStart() {
     window.location.replace('index.html');
 }
+
+/**
+ * Requests the browser to enter fullscreen mode for the entire document.
+ * Supports various vendor-prefixed methods for compatibility with different browsers.
+ */
 
 function enterFullscreen() {
   if (document.documentElement.requestFullscreen) {

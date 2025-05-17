@@ -36,39 +36,42 @@ class Projectil extends MoveableObjekt {
         this.remove();
     }
 
+    /**
+     * Moves the projectil every 16.7ms.
+     * If the projectil collides with an enemy, the enemy's hit() method is called and the projectil explodes.
+     * If the projectil is not colliding with an enemy, it moves 6 pixels to the left or right depending on its direction.
+     * If the projectil is more than 740 pixels away from its starting position, it is removed from the game world.
+     */
     move() {
-        this.startX = this.X; // Startpunkt merken
-
+        this.startX = this.X;
         const moveInterval = setInterval(() => {
             if (this.colliding) return;
-
-            // Kollision mit Gegnern prüfen
             this.world.level.enemys.forEach(enemy => {
                 if (this.isCollidingWith(enemy) && !this.colliding && !enemy.isDead()) {
                     this.colliding = true;
                     enemy.hit();
-                    this.explode(); // Animation + Entfernen
+                    this.explode();
                 }
             });
-
-            // Nur bewegen, wenn keine Kollision
             if (!this.colliding) {
                 if (this.otherDirection) {
                     this.X -= 6;
                 } else {
                     this.X += 6;
                 }
-
-                // Reichweite überschritten?
                 const distance = Math.abs(this.X - this.startX);
                 if (distance > 740) {
                     this.remove();
-                    clearInterval(moveInterval); // Bewegung stoppen
+                    clearInterval(moveInterval);
                 }
             }
         }, 1000 / 60);
     }
 
+/**
+ * Removes the projectile from the world's projectils array.
+ * Checks if the projectile is present in the array and removes it.
+ */
     remove() {
         const index = this.world.projectils.indexOf(this);
         if (index > -1) {
@@ -77,6 +80,11 @@ class Projectil extends MoveableObjekt {
     }
 
 
+    /**
+     * Animates the projectile's explosion and removes it after the animation is done.
+     * The animation is started by calling animateImagesOnce() with the array of explosion images.
+     * After the animation is done, the projectile is removed from the game world by calling remove() after a delay of 600ms (6 images × 100ms).
+     */
     explode() {
         this.animateImagesOnce(this.Images); // z. B. Explosionsbilder
         setTimeout(() => {

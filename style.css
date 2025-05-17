@@ -76,6 +76,7 @@ body {
     position: relative;
     top: -2.5%;
 }
+
 .endscreenButtonText:hover {
     cursor: pointer;
 }
@@ -90,22 +91,23 @@ canvas {
     /* wird erst beim Spielstart sichtbar */
 }
 
+#oriantationWarning {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    z-index: 9999;
+    text-align: center;
+    background-color: gray;
+}
+
 @media only screen and (max-width: 740px) {
 
     canvas,
-    #startscreen {
+    #startscreen,
+    #endscreen {
         width: 100%;
-    }
-
-    body {
-        padding: 0;
-    }
-}
-
-@media only screen and (max-height: 480px) {
-
-    canvas,
-    #startscreen {
         height: 100vh;
     }
 
@@ -113,4 +115,32 @@ canvas {
         padding: 0;
     }
 
+    #fullscreenButton {
+        display: none;
+    }
+}
+
+@media only screen and (max-height: 480px) {
+
+    canvas,
+    #startscreen,
+    #endscreen {
+        width: 100%;
+        height: 100vh;
+    }
+
+    body {
+        padding: 0;
+    }
+
+    #fullscreenButton {
+        display: none;
+    }
+
+}
+
+@media screen and (orientation:landscape) {
+    #oriantationWarning {
+        display: none;
+    }
 }

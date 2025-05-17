@@ -69,6 +69,20 @@ class Charakter extends MoveableObjekt {
         this.resourceGenerator();
     }
 
+/**
+ * Animates the character by setting up two intervals:
+ * 1. The first interval handles the movement of the character based on keyboard inputs,
+ *    updating the character's position and direction if the character is not dead.
+ *    It checks if the RIGHT or LEFT keys are pressed and moves the character accordingly,
+ *    along with maintaining the camera position.
+ * 
+ * 2. The second interval handles the character's walking animation by switching images
+ *    if the RIGHT or LEFT keys are pressed, the character is on the ground, not dead,
+ *    not attacking, and not jumping. If the character is idle (not attacking, not dead,
+ *    not jumping, and not hurt), it resets the character's image to its default.
+ * 
+ * Both intervals run at different frame rates to ensure smooth animation and movement.
+ */
     animate() {
         setInterval(() => {
             if (!this.isDead()) {
@@ -93,23 +107,38 @@ class Charakter extends MoveableObjekt {
         }, 80);
     }
 
+/**
+ * Handles the jumping behavior of the character.
+ * Sets up an interval to monitor the SPACE key and the character's state.
+ * If the SPACE key is pressed and the character is on the ground, not jumping,
+ * not dead, and not attacking, it initiates a jump by setting the vertical speed
+ * and playing the jump animation. The character's jumping state is updated accordingly.
+ * Once the character lands back on the ground and the SPACE key is not pressed,
+ * the jumping state is reset.
+ */
     jump() {
         setInterval(() => {
             const spacePressed = this.world.keyboard.SPACE;
 
             if (spacePressed && this.isOnGround() && !this.isJumping && !this.isDead() && !this.isAttacking) {
                 this.speedY = -8;
-                this.animateImagesOnce(this.Images_JUMP); // Nur 1x!
+                this.animateImagesOnce(this.Images_JUMP);
                 this.isJumping = true;
             }
-
-            // Zurücksetzen wenn wieder gelandet
             if (this.isOnGround() && !spacePressed) {
                 this.isJumping = false;
             }
         }, 1000 / 60);
     }
 
+/**
+ * Handles the attacking behavior of the character.
+ * Sets up an interval to monitor the X key and the character's state.
+ * If the X key is pressed, the character is not already attacking, and has at least 20 mana,
+ * it initiates an attack by reducing the mana, playing the attack animation, and firing a projectile.
+ * The character's attacking state is updated accordingly.
+ * The attacking state is reset after the animation duration.
+ */
     attack() {
         setInterval(() => {
             if (this.world.keyboard.X && !this.isAttacking && this.mana >= 20) {
@@ -126,6 +155,11 @@ class Charakter extends MoveableObjekt {
         }, 1000 / 60); // 60 FPS → häufig genug, aber effizient
     }
 
+    /**
+     * Adds the given resource to the character and removes the collectable from the level.
+     * @param {Collectable} collectable - The collectable to remove from the level.
+     * @param {string} resource - The resource to add to the character ('life' or 'mana').
+     */
     addResource(collectable, resource) {
         if (resource === 'life') {
             this.life += 50;
@@ -143,6 +177,10 @@ class Charakter extends MoveableObjekt {
         this.resourceBarSync();
     }
 
+    /**
+     * Calculates the camera's offset based on the character's position.
+     * The camera's offset is clamped to ensure it doesn't move beyond the start or end of the level.
+     */
     camera() {
         // Kamera-Versatz berechnen
         let cameraTarget = -this.X + 100;
@@ -153,6 +191,11 @@ class Charakter extends MoveableObjekt {
         this.world.camera_X = Math.max(Math.min(cameraTarget, minCameraOffset), maxCameraOffset);
     }
 
+    /**
+     * Generates resources (mana) for the character over time.
+     * If the character's mana is less than 100, 1 mana is added every second.
+     * The character's win or lose condition is also checked every second.
+     */
     resourceGenerator() {
         setInterval(() => {
             if (this.mana < 100) {
@@ -163,6 +206,11 @@ class Charakter extends MoveableObjekt {
         }, 1000);
     }
 
+/**
+ * Checks the win or lose condition for the character.
+ * If the character is dead, sets the end screen image to a losing graphic and renders the end screen.
+ * If there are no enemies left in the level, sets the end screen image to a winning graphic and renders the end screen.
+ */
     winOrLose() {
         if (this.isDead()) {  
             document.getElementById('endscreenImage').src = 'img/interface/knight_loose.png'; 

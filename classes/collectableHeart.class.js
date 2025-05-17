@@ -28,6 +28,10 @@ class CollectableHEART extends MoveableObjekt {
         this.animate();
     }
 
+    /**
+     * Animates the collectable heart by switching between its images every 200ms.
+     * This method is called in the constructor and runs indefinitely.
+     */
         animate() {
         setInterval(() => {
                 this.animateImages(this.images);

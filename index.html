@@ -21,7 +21,6 @@
     <script src="classes/level.class.js"></script>
     <script src="levels/level1.js"></script>
     <script src="js/game.js"></script>
-    <script src="js/assets.js"></script>
     <title>Treasures-of-Eternity</title>
     <link rel="icon" href="img/interface/characters.png">
 </head>
@@ -44,10 +43,12 @@
         <img id="endscreenImage" src="img/interface/knight_win.png">
 
         <div id="endscreenButton">
-            <img class = "endscreenButtonimg" onclick="goToStart()" src="img/interface/button_yellow.png" alt="">
-            <p class = "endscreenButtonText" onclick="goToStart()">Zum Startmenü</p>
+            <img class="endscreenButtonimg" onclick="goToStart()" src="img/interface/button_yellow.png" alt="">
+            <p class="endscreenButtonText" onclick="goToStart()">Zum Startmenü</p>
         </div>
     </div>
+    <div id="oriantationWarning">
+        <p>Bitte drehe dein Gerät zum spielen</p>
     </div>
 
     <canvas id="canvas" width="740" height="480">
