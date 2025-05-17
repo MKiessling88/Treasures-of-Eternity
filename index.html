@@ -23,12 +23,13 @@
     <script src="js/game.js"></script>
     <script src="js/assets.js"></script>
     <title>Treasures-of-Eternity</title>
+    <link rel="icon" href="img/interface/characters.png">
 </head>
 
 <body>
     <div id="startscreen">
         <h1>Treasures of Eternity</h1>
-        <img src="img/interface/play_button.png" id="startImage" alt="Spiel starten" onclick="beginLoading()">
+        <img src="img/interface/play_button.png" id="startImage" alt="Spiel starten" onclick="startGame()">
         <div>
             <div>
                 <p>Pfeiltasten: Bewegen</p>
@@ -37,11 +38,7 @@
                 <p>Space: Springen <br> X: Angriff</p>
             </div>
         </div>
-
-        <div id="loaderContainer" style="display: none;">
-            <div id="loaderBar"></div>
-        </div>
-        <p id="loadingText" style="display: none;">Lädt 0%</p>
+        <button id="fullscreenButton" onclick="enterFullscreen()"></button>
     </div>
     <div id="endscreen" class="hidden">
         <img id="endscreenImage" src="img/interface/knight_win.png">

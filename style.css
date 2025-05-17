@@ -7,6 +7,7 @@ body {
 }
 
 #startscreen {
+    position: relative;
     width: 740px;
     height: 480px;
     color: black;
@@ -20,6 +21,22 @@ body {
     background-size: cover;
     background-position: center;
     text-align: center;
+}
+
+#startImage:hover {
+    cursor: pointer;
+}
+
+#fullscreenButton {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    border: solid 1px white;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 #endscreen {

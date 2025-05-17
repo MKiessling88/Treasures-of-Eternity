@@ -5,45 +5,11 @@ let level = level1;
 
 let loadedImages = 0;
 
-function beginLoading() {
-    document.getElementById('startImage').style.display = 'none';
-    document.getElementById('loaderContainer').style.display = 'block';
-    document.getElementById('loadingText').style.display = 'block';
-
-    preloadAssets(ASSETS, startGame);
-}
-
 function startGame() {
     document.getElementById('startscreen').style.display = 'none';
     document.getElementById('canvas').style.display = 'block';
     init();
 }
-
-function preloadAssets(assetPaths, onComplete) {
-    const total = assetPaths.length;
-
-    assetPaths.forEach(path => {
-        const img = new Image();
-        img.src = path;
-
-        img.onload = img.onerror = () => {
-            loadedImages++;
-            updateLoadingBar(loadedImages, total);
-
-            if (loadedImages === total) {
-                setTimeout(onComplete, 300);
-            }
-        };
-    });
-}
-
-function updateLoadingBar(loaded, total) {
-    const percent = Math.floor((loaded / total) * 100);
-    document.getElementById('loaderBar').style.width = percent + '%';
-    document.getElementById('loadingText').innerText = `Lädt ${percent}%`;
-}
-
-
 
 function init() {
     canvas = document.getElementById('canvas');
@@ -55,6 +21,17 @@ function goToStart() {
     window.location.replace('index.html');
 }
 
+function enterFullscreen() {
+  if (document.documentElement.requestFullscreen) {
+    document.documentElement.requestFullscreen();
+  } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+    document.documentElement.mozRequestFullScreen();
+  } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari und Opera
+    document.documentElement.webkitRequestFullscreen();
+  } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+    document.documentElement.msRequestFullscreen();
+  }
+}
 
 window.addEventListener('keydown', (e) => {
     if (e.keyCode == 32)
