@@ -85,6 +85,47 @@ body {
     display: none !important;
 }
 
+#canvasContainer {
+    position: absolute;
+}
+
+#actionButtons {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-bottom: 15px;
+    margin-left: 3%;
+    margin-right: 3%;
+    display: flex;
+    z-index: 999;
+}
+
+button {
+    background-color: transparent;
+    border: none;
+}
+
+#playButtonRight {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 15%;
+    display: flex;
+    justify-content: space-between;
+    z-index: 999;
+}
+
+#playButtonLeft {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 15%;
+    display: flex;
+    justify-content: space-between;
+    z-index: 999;
+}
+
 canvas {
     background-color: black;
     display: none;
@@ -118,6 +159,11 @@ canvas {
     #fullscreenButton {
         display: none;
     }
+
+    #canvasContainer {
+        left: 0;
+        right: 0;
+    }
 }
 
 @media only screen and (max-height: 480px) {
@@ -136,7 +182,10 @@ canvas {
     #fullscreenButton {
         display: none;
     }
-
+        #canvasContainer {
+        left: 0;
+        right: 0;
+    }
 }
 
 @media screen and (orientation:landscape) {
