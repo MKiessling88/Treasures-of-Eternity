@@ -52,6 +52,7 @@ class Charakter extends MoveableObjekt {
     ]
     world;
     isJumping = false;
+    gameend = false;
 
     constructor() {
         super();
@@ -62,11 +63,11 @@ class Charakter extends MoveableObjekt {
         this.loadImages(this.Images_HURT);
         this.loadImages(this.Images_ATTACK);
 
-        this.animate();
-        this.applyGravity();
-        this.jump();
-        this.attack();
-        this.resourceGenerator();
+        //this.animate();
+        //this.applyGravity();
+        //this.jump();
+        //this.attack();
+        //this.resourceGenerator();
     }
 
     /**
@@ -84,7 +85,7 @@ class Charakter extends MoveableObjekt {
      * Both intervals run at different frame rates to ensure smooth animation and movement.
      */
     animate() {
-        setInterval(() => {
+        this.world.intervals.push(setInterval(() => {
             if (!this.isDead()) {
                 if (this.world.keyboard.RIGHT && this.X < this.world.level.levelLength + this.world.canvas.width - 50) {
                     this.X += 3;
@@ -96,15 +97,15 @@ class Charakter extends MoveableObjekt {
                 }
             }
             this.camera();
-        }, 1000 / 60);
+        }, 1000 / 60));
 
-        setInterval(() => {
+        this.world.intervals.push(setInterval(() => {
             if (this.world.keyboard.RIGHT && this.isOnGround() && !this.isDead() && !this.isAttacking || this.world.keyboard.LEFT && this.isOnGround() && !this.isDead() && !this.isAttacking) {
                 this.animateImages(this.Images_WALK);
             } else if (!this.isAttacking && !this.isDead() && !this.isJumping && !this.isHurt) {
                 this.loadImage('img/charakter/mage.png');
             }
-        }, 80);
+        }, 80));
     }
 
     /**
@@ -117,7 +118,7 @@ class Charakter extends MoveableObjekt {
      * the jumping state is reset.
      */
     jump() {
-        setInterval(() => {
+        this.world.intervals.push(setInterval(() => {
             const spacePressed = this.world.keyboard.SPACE;
 
             if (spacePressed && this.isOnGround() && !this.isJumping && !this.isDead() && !this.isAttacking) {
@@ -129,7 +130,7 @@ class Charakter extends MoveableObjekt {
             if (this.isOnGround() && !spacePressed) {
                 this.isJumping = false;
             }
-        }, 1000 / 60);
+        }, 1000 / 60));
     }
 
     /**
@@ -141,7 +142,7 @@ class Charakter extends MoveableObjekt {
      * The attacking state is reset after the animation duration.
      */
     attack() {
-        setInterval(() => {
+        this.world.intervals.push(setInterval(() => {
             if (this.world.keyboard.X && !this.isAttacking && this.mana >= 20) {
                 this.isAttacking = true;
                 this.animateImagesOnce(this.Images_ATTACK);
@@ -154,7 +155,7 @@ class Charakter extends MoveableObjekt {
                     this.isAttacking = false;
                 }, 1000);
             }
-        }, 1000 / 60); // 60 FPS → häufig genug, aber effizient
+        }, 1000 / 60)); // 60 FPS → häufig genug, aber effizient
     }
 
     /**
@@ -199,13 +200,13 @@ class Charakter extends MoveableObjekt {
      * The character's win or lose condition is also checked every second.
      */
     resourceGenerator() {
-        setInterval(() => {
+        this.world.intervals.push(setInterval(() => {
             if (this.mana < 100) {
                 this.mana += 1;
             }
             this.resourceBarSync();
             this.winOrLose();
-        }, 1000);
+        }, 1000));
     }
 
     /**
@@ -217,11 +218,13 @@ class Charakter extends MoveableObjekt {
         if (this.isDead()) {
             document.getElementById('actionButtons').classList.add('hidden');
             document.getElementById('endscreenImage').src = 'img/interface/knight_loose.png';
+            this.world.clearAllIntervals()
             this.world.renderEndScreen();
         }
         if (this.world.level.enemys.length === 0) {
             document.getElementById('actionButtons').classList.add('hidden');
             document.getElementById('endscreenImage').src = 'img/interface/knight_win.png';
+            this.world.clearAllIntervals()
             this.world.renderEndScreen();
         }
     }

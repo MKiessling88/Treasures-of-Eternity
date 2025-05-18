@@ -101,7 +101,8 @@ h1 {
     text-align: center;
 }
 
-#endscreenButton {
+#endscreenButtons {
+    position: relative;
     height: 120px;
     width: 200px;
     border: none;
@@ -111,10 +112,20 @@ h1 {
     display: inline-block;
 }
 
-.endscreenButtonimg {
+h4 {
+    position: relative;
+    top: -46px;
+}
+
+#btnRestart {
+    position: relative;
+    top: 10px;
+}
+
+/* .endscreenButtonimg {
     position: relative;
     top: 35%;
-}
+} */
 
 .endscreenButtonimg:hover {
     cursor: pointer;
@@ -153,6 +164,7 @@ h1 {
 button {
     background-color: transparent;
     border: none;
+    cursor: pointer;
 }
 
 #playButtonRight {
@@ -178,7 +190,6 @@ button {
 canvas {
     background-color: black;
     display: none;
-    /* wird erst beim Spielstart sichtbar */
 }
 
 #oriantationWarning {

@@ -15,6 +15,7 @@ class World {
     new Interface('img/interface/stamina-energy-magic_bar_border.png', 60, 35, 100, 22.5),
     ];
     projectils = [];
+    intervals = [];
     sounds;
 
     constructor(canvas, keyboard, level, sounds) {
@@ -41,6 +42,11 @@ class World {
         this.level.enemys.forEach(enemy => {
             enemy.world = this;
         });
+        this.charakter.animate();
+        this.charakter.jump();
+        this.charakter.attack();
+        this.charakter.resourceGenerator();
+        this.charakter.applyGravity();
     }
     
     /**
@@ -89,7 +95,7 @@ class World {
      */
     addToMap(mo) {
 
-        //mo.drawFrame(this.ctx, mo);
+        mo.drawFrame(this.ctx, mo);
 
         if (mo.otherDirection) {
             this.ctx.save();
@@ -108,10 +114,10 @@ class World {
      * If the player collides with a collectable and the player's life or mana is less than 100, the player's addResource() method is called.
      */
     checkCollisions() {
-        setInterval(() => {
+        this.intervals.push(setInterval(() => {
             this.checkEnemys();
             this.checkCollectables();
-        }, 100);
+        }, 100));
     }
 
     /**
@@ -148,7 +154,7 @@ class World {
      * If the first cloud is no longer visible on the screen, it is removed and a new cloud is added to the end of the array.
      */
     updateClouds() {
-        setInterval(() => {
+        this.intervals.push(setInterval(() => {
             let firstCloud = this.level.clouds[0];
             if (firstCloud.X + firstCloud.width < -740) {
                 this.level.clouds.shift();
@@ -159,7 +165,7 @@ class World {
                 let newCloud = new Cloud(newX);
                 this.level.clouds.push(newCloud);
             }
-        }, 1000 / 60);
+        }, 1000 / 60));
     };
 
     /**
@@ -169,14 +175,14 @@ class World {
      * This ensures continuous generation of tiles as the player progresses.
      */
     generateTilesets() {
-        setInterval(() => {
+        this.intervals.push(setInterval(() => {
             let lastTileset = this.level.tilesets[this.level.tilesets.length - 1];
             let worldLength = this.level.levelLength + 800;
             if (lastTileset.X + lastTileset.width <= worldLength) {
                 this.level.tilesets.push(new Tileset('img/tilesets/tile2.png', lastTileset.X + lastTileset.width, 390));
                 this.level.tilesets.push(new Tileset('img/tilesets/tile5.png', lastTileset.X + lastTileset.width, 440));
             }
-        }, 1000 / 60);
+        }, 1000 / 60));
     }
 
     /**
@@ -187,4 +193,11 @@ class World {
         document.getElementById('canvas').style.display = 'none';
         document.getElementById('endscreen').classList.remove('hidden');
     }
+
+    clearAllIntervals() {
+    for (let i = 0; i < this.intervals.length; i++) {
+        clearInterval(this.intervals[i]);
+    }
+    this.intervals = [];
+}
 }

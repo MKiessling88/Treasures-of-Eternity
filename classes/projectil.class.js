@@ -45,13 +45,18 @@ class Projectil extends MoveableObjekt {
     move() {
         this.startX = this.X;
         const moveInterval = setInterval(() => {
-            if (this.colliding) return;
+            if (this.colliding) {
+                clearInterval(moveInterval);
+                return;
+            }
             this.world.level.enemys.forEach(enemy => {
-                if (this.isCollidingWith(enemy) && !this.colliding && !enemy.isDead()) {
+                if (this.isCollidingWith(enemy) && !enemy.isDead()) {
                     this.colliding = true;
                     enemy.hit();
                     this.explode();
                     this.playSound(this.world.sounds.explode);
+                    clearInterval(moveInterval);
+                    return; // wichtig, um nicht mehr weiter zu machen
                 }
             });
             if (!this.colliding) {
@@ -61,7 +66,7 @@ class Projectil extends MoveableObjekt {
                     this.X += 6;
                 }
                 const distance = Math.abs(this.X - this.startX);
-                if (distance > 740) {
+                if (distance > 300) {
                     this.remove();
                     clearInterval(moveInterval);
                 }
@@ -69,10 +74,10 @@ class Projectil extends MoveableObjekt {
         }, 1000 / 60);
     }
 
-/**
- * Removes the projectile from the world's projectils array.
- * Checks if the projectile is present in the array and removes it.
- */
+    /**
+     * Removes the projectile from the world's projectils array.
+     * Checks if the projectile is present in the array and removes it.
+     */
     remove() {
         const index = this.world.projectils.indexOf(this);
         if (index > -1) {

@@ -45,9 +45,13 @@
     <div id="endscreen" class="hidden">
         <img id="endscreenImage" src="img/interface/knight_win.png">
 
-        <div id="endscreenButton">
-            <img class="endscreenButtonimg" onclick="goToStart()" src="img/interface/button_yellow.png" alt="">
-            <p class="endscreenButtonText" onclick="goToStart()">Zum Startmenü</p>
+        <div id="endscreenButtons">
+            <button id="btnRestart" onclick="goToStart()"><img src="img/interface/button_yellow.png">
+                <h4>Hauptmenü</h4>
+            </button>
+            <button id="btnRestart" onclick="resetGame()"><img src="img/interface/button_yellow.png">
+                <h4>Neues Spiel</h4>
+            </button>
         </div>
     </div>
     <div id="oriantationWarning">

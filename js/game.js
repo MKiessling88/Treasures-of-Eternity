@@ -1,7 +1,7 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
-let level = level1;
+let level = createLevel1();
 let sounds = {
     jump: new Audio('sounds/jump.mp3'),
     attack: new Audio('sounds/attack.mp3'),
@@ -20,6 +20,15 @@ function startGame() {
     document.getElementById('startscreen').style.display = 'none';
     document.getElementById('canvas').style.display = 'block';
     init();
+}
+
+function resetGame() {
+    console.log("Reset wurde aufgerufen");
+    level = createLevel1();
+    world = new World(canvas, keyboard, level, sounds);
+    world.setWorld();
+    document.getElementById('endscreen').classList.add('hidden');
+    startGame();
 }
 
 /**
@@ -53,8 +62,8 @@ function toggleMute() {
     for (const key in sounds) {
         sounds[key].muted = isMuted;
     }
-        localStorage.setItem('muted', isMuted);
-        document.getElementById('btnMute').textContent = isMuted ? '🔇 Stumm' : '🔊 Ton an';
+    localStorage.setItem('muted', isMuted);
+    document.getElementById('btnMute').textContent = isMuted ? '🔇 Stumm' : '🔊 Ton an';
 }
 
 /**

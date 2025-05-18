@@ -117,7 +117,7 @@ class MoveableObjekt {
             const path = images[frame];
             this.Image = this.imageCache[path];
             frame++;
-        }, 1000 / 10);
+        }, images.length * 10);
     }
 
     /**
@@ -125,7 +125,7 @@ class MoveableObjekt {
      * position in an interval.
      */
     applyGravity() {
-        setInterval(() => {
+        this.world.intervals.push(setInterval(() => {
             const groundLevel = this.world.canvas.height - (this.height + 60);
             // Wenn Spieler nicht am Boden ist
             if (!this.isOnGround() || this.speedY < 0) {
@@ -136,7 +136,7 @@ class MoveableObjekt {
                 this.Y = groundLevel;
                 this.speedY = 0;
             }
-        }, 1000 / 60); // 60 FPS!
+        }, 1000 / 60)); // 60 FPS!
     }
 
     /**
