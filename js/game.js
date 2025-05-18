@@ -39,15 +39,15 @@ function goToStart() {
  */
 
 function enterFullscreen() {
-  if (document.documentElement.requestFullscreen) {
-    document.documentElement.requestFullscreen();
-  } else if (document.documentElement.mozRequestFullScreen) { // Firefox
-    document.documentElement.mozRequestFullScreen();
-  } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari und Opera
-    document.documentElement.webkitRequestFullscreen();
-  } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
-    document.documentElement.msRequestFullscreen();
-  }
+    if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen();
+    } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+        document.documentElement.mozRequestFullScreen();
+    } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari und Opera
+        document.documentElement.webkitRequestFullscreen();
+    } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+        document.documentElement.msRequestFullscreen();
+    }
 }
 
 window.addEventListener('keydown', (e) => {
@@ -79,4 +79,48 @@ window.addEventListener('keyup', (e) => {
         keyboard.DOWN = false;
     if (e.keyCode == 88)
         keyboard.X = false;
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const btnJump = document.getElementById('btnJump');
+    const btnAttack = document.getElementById('btnAttack');
+    const btnMoveLeft = document.getElementById('btnMoveLeft');
+    const btnMoveRight = document.getElementById('btnMoveRight');
+    if (btnJump) {
+        btnJump.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            keyboard.SPACE = true;
+        });
+
+        btnJump.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            keyboard.SPACE = false;
+        });
+        btnAttack.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            keyboard.X = true;
+        });
+        btnAttack.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            keyboard.X = false;
+        });
+        btnMoveLeft.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            keyboard.LEFT = true;
+        });
+        btnMoveLeft.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            keyboard.LEFT = false;
+        });
+        btnMoveRight.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            keyboard.RIGHT = true;
+        });
+        btnMoveRight.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            keyboard.RIGHT = false;
+        });
+    } else {
+        console.error("Element mit ID 'btnJump' nicht gefunden!");
+    }
 });
