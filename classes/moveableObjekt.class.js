@@ -151,7 +151,7 @@ class MoveableObjekt {
             this.isHurt = true;
             if (this.isDead()) {
                 this.animateImagesOnce(this.Images_DEAD);
-                if (this instanceof Goblin || this instanceof Endboss) {
+                if (this instanceof Goblin || this instanceof Endboss || this instanceof Dino) {
                     this.remove();
                 }
             } else if (this.isHurt) {
@@ -207,7 +207,7 @@ class MoveableObjekt {
  * @param {Object} obj - The object to outline, expected to have position and dimension properties.
  */
     drawFrame(ctx, obj) {
-        if (this instanceof Charakter || this instanceof Goblin || this instanceof Endboss || this instanceof Projectil || this instanceof CollectableHEART || this instanceof CollectablePotion) {
+        if (this instanceof Charakter || this instanceof Goblin || this instanceof Endboss || this instanceof Projectil || this instanceof Dino) {
             ctx.strokeStyle = 'red';
             ctx.lineWidth = 2;
             ctx.strokeRect(

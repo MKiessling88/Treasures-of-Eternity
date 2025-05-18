@@ -44,9 +44,9 @@ class Goblin extends MoveableObjekt {
     }
 
     /**
-     * Animates the goblin by switching between the walk images every 200ms.
-     * If the goblin is hurt or dead, the animation is paused.
-     */
+* Animates the goblin by switching between the walk images every 200ms.
+* If the goblin is hurt or dead, the animation is paused.
+*/
     animate() {
         setInterval(() => {
             if (!this.isHurt && !this.isDead()) {
@@ -56,13 +56,13 @@ class Goblin extends MoveableObjekt {
     }
 
     /**
-     * Moves the goblin to the left by subtracting 0.25 from its X position every 16.7ms.
-     * If the goblin is hurt or dead, the movement is paused.
-     */
+ * Moves the goblin to the left by subtracting 0.25 from its X position every 16.7ms.
+ * If the goblin is hurt or dead, the movement is paused.
+ */
     moveLeft() {
         setInterval(() => {
             if (!this.isHurt && !this.isDead()) {
-                    this.X -= 0.25;
+                this.X -= 0.25;
             }
         }, 1000 / 60);
     }
