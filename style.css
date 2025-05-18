@@ -156,10 +156,6 @@ canvas {
         padding: 0;
     }
 
-    #fullscreenButton {
-        display: none;
-    }
-
     #canvasContainer {
         left: 0;
         right: 0;
@@ -179,9 +175,6 @@ canvas {
         padding: 0;
     }
 
-    #fullscreenButton {
-        display: none;
-    }
         #canvasContainer {
         left: 0;
         right: 0;
