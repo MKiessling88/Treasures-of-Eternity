@@ -52,6 +52,8 @@ class Charakter extends MoveableObjekt {
     ]
     world;
     isJumping = false;
+    jumpSound = new Audio('sounds/jump.mp3');
+    attackSound = new Audio('sounds/attack.mp3');
 
     constructor() {
         super();
@@ -61,6 +63,7 @@ class Charakter extends MoveableObjekt {
         this.loadImages(this.Images_DEAD);
         this.loadImages(this.Images_HURT);
         this.loadImages(this.Images_ATTACK);
+        this.attackSound.volume = 0.2;
 
         this.animate();
         this.applyGravity();
@@ -123,13 +126,14 @@ class Charakter extends MoveableObjekt {
             if (spacePressed && this.isOnGround() && !this.isJumping && !this.isDead() && !this.isAttacking) {
                 this.speedY = -8;
                 this.animateImagesOnce(this.Images_JUMP);
+                this.playSound(this.jumpSound);
                 this.isJumping = true;
             }
             if (this.isOnGround() && !spacePressed) {
                 this.isJumping = false;
             }
         }, 1000 / 60);
-    }
+    }    
 
     /**
      * Handles the attacking behavior of the character.
@@ -144,6 +148,7 @@ class Charakter extends MoveableObjekt {
             if (this.world.keyboard.X && !this.isAttacking && this.mana >= 20) {
                 this.isAttacking = true;
                 this.animateImagesOnce(this.Images_ATTACK);
+                this.playSound(this.attackSound);
                 this.world.projectils.push(new Projectil(this.X + 45, this.Y + 25, this.otherDirection, this.world));
                 this.mana -= 10;
 

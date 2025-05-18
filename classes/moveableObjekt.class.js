@@ -70,7 +70,7 @@ class MoveableObjekt {
                     }
                 } else {
                     this.X += 0.25;
-                    if (this.X >= this.world.level.levelLength) {
+                    if (this.X >= 2000) {
                         this.otherDirection = true;
                     }
                 }
@@ -230,6 +230,15 @@ class MoveableObjekt {
             }
         }, 2000);
     }
+
+    playSound(Sound) {
+        // Damit der Sound bei schnellem Drücken mehrfach funktioniert:
+        Sound.currentTime = 0;
+        Sound.play().catch(err => {
+            console.warn("Audio konnte nicht abgespielt werden:", err);
+        });
+    }
+
 
     /**
      * Draws a red outline around the given object if it is an instance of specified classes.
