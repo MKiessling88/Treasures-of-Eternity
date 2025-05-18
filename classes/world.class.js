@@ -89,7 +89,7 @@ class World {
      */
     addToMap(mo) {
 
-        mo.drawFrame(this.ctx, mo);
+        //mo.drawFrame(this.ctx, mo);
 
         if (mo.otherDirection) {
             this.ctx.save();
