@@ -57,6 +57,40 @@ class MoveableObjekt {
     }
 
     /**
+* Moves the goblin to the left by subtracting 0.25 from its X position every 16.7ms.
+* If the goblin is hurt or dead, the movement is paused.
+*/
+    move() {
+        setInterval(() => {
+            if (!this.isHurt && !this.isDead()) {
+                if (this.otherDirection) {
+                    this.X -= 0.25;
+                    if (this.X <= -400) {
+                        this.otherDirection = false;
+                    }
+                } else {
+                    this.X += 0.25;
+                    if (this.X >= this.world.level.levelLength) {
+                        this.otherDirection = true;
+                    }
+                }
+            }
+        }, 1000 / 60);
+    }
+
+    /**
+* Animates the goblin by switching between the walk images every 200ms.
+* If the goblin is hurt or dead, the animation is paused.
+*/
+    animate() {
+        setInterval(() => {
+            if (!this.isHurt && !this.isDead()) {
+                this.animateImages(this.Images_WALK);
+            }
+        }, 1000 / 5);
+    }
+
+    /**
      * Animates the object by switching between the images in the given array.
      * The method is called every 100ms to update the animation.
      * @param {string[]} images - The array of paths to the image files.
@@ -163,12 +197,12 @@ class MoveableObjekt {
         }
     }
 
-/**
- * Synchronizes the resource bars in the game interface with the current
- * 'mana' and 'life' values of the object. Updates the width of the mana
- * and life bars in the interface to reflect the object's current resource
- * levels.
- */
+    /**
+     * Synchronizes the resource bars in the game interface with the current
+     * 'mana' and 'life' values of the object. Updates the width of the mana
+     * and life bars in the interface to reflect the object's current resource
+     * levels.
+     */
     resourceBarSync() {
         this.world.interface[5].width = this.mana;
         this.world.interface[4].width = this.life;
@@ -197,15 +231,15 @@ class MoveableObjekt {
         }, 2000);
     }
 
-/**
- * Draws a red outline around the given object if it is an instance of specified classes.
- * The outline is drawn on the provided canvas context using the object's dimensions,
- * taking into account any offset values. This visual aid can be used for debugging
- * purposes to highlight the object's bounding box on the canvas.
- * 
- * @param {CanvasRenderingContext2D} ctx - The canvas context on which to draw the outline.
- * @param {Object} obj - The object to outline, expected to have position and dimension properties.
- */
+    /**
+     * Draws a red outline around the given object if it is an instance of specified classes.
+     * The outline is drawn on the provided canvas context using the object's dimensions,
+     * taking into account any offset values. This visual aid can be used for debugging
+     * purposes to highlight the object's bounding box on the canvas.
+     * 
+     * @param {CanvasRenderingContext2D} ctx - The canvas context on which to draw the outline.
+     * @param {Object} obj - The object to outline, expected to have position and dimension properties.
+     */
     drawFrame(ctx, obj) {
         if (this instanceof Charakter || this instanceof Goblin || this instanceof Endboss || this instanceof Projectil || this instanceof Dino) {
             ctx.strokeStyle = 'red';

@@ -1,5 +1,7 @@
 const level1 = new Level(
-    [   
+    [
+        new Dino(),
+        new Dino(),
         new Dino(),
         new Goblin(),
         new Goblin(),

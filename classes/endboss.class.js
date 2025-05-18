@@ -54,7 +54,7 @@ class Endboss extends MoveableObjekt {
  */
     animate() {
         setInterval(() => {
-            if (!this.isDead()) {
+            if (!this.isDead() && !this.isHurt) {
                 this.animateImages(this.Images_WALK);
             }
         }, 1000 / 5);
@@ -69,7 +69,7 @@ class Endboss extends MoveableObjekt {
      */
     walking() {
         setInterval(() => {
-            if (!this.isDead()) {
+            if (!this.isDead() && !this.isHurt) {
                 if (this.otherDirection) {
                     this.X -= 2;
                     if (this.X <= this.startX - 200) {
