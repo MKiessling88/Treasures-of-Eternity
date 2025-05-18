@@ -10,6 +10,7 @@ let loadedImages = 0;
  * to set up the game.
  */
 function startGame() {
+    document.getElementById('actionButtons').classList.remove('hidden');
     document.getElementById('startscreen').style.display = 'none';
     document.getElementById('canvas').style.display = 'block';
     init();

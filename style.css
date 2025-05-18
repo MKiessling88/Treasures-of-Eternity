@@ -99,6 +99,7 @@ body {
     margin-right: 3%;
     display: flex;
     z-index: 999;
+    display: none;
 }
 
 button {
@@ -160,6 +161,9 @@ canvas {
         left: 0;
         right: 0;
     }
+    #actionButtons {
+        display: block !important;
+    }
 }
 
 @media only screen and (max-height: 480px) {
@@ -178,6 +182,9 @@ canvas {
         #canvasContainer {
         left: 0;
         right: 0;
+    }
+        #actionButtons {
+        display: block !important;
     }
 }
 

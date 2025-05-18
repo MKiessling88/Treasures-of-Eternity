@@ -1,9 +1,9 @@
 const level1 = new Level(
     [   
-        new Dino(900),
-        // new Goblin(),
-        // new Goblin(),
-        // new Goblin(),
+        new Dino(),
+        new Goblin(),
+        new Goblin(),
+        new Goblin(),
         new Endboss(2400),
     ],
     [

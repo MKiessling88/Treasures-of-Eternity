@@ -35,7 +35,7 @@ class Dino extends MoveableObjekt {
         this.loadImages(this.Images_HURT);
         this.loadImages(this.Images_DEAD);
         this.world = world;
-        this.X = x || Math.floor(Math.random() * 1200) + 500;
+        this.X = x ||  200 + Math.random() * 1200;
         this.Y = 350;
         // this.moveLeft();
         this.animate();
