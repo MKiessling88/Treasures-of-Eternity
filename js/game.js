@@ -2,8 +2,14 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 let level = level1;
+let sounds = {
+    jump: new Audio('sounds/jump.mp3'),
+    attack: new Audio('sounds/attack.mp3'),
+    explode: new Audio('sounds/explosion.mp3')
+};
 
 let loadedImages = 0;
+let isMuted = false;
 
 /**
  * Hides the startscreen and shows the canvas, then calls the init function
@@ -23,7 +29,7 @@ function startGame() {
  */
 function init() {
     canvas = document.getElementById('canvas');
-    world = new World(canvas, keyboard, level);
+    world = new World(canvas, keyboard, level, sounds);
     world.setWorld();
 }
 
@@ -32,6 +38,23 @@ function init() {
  */
 function goToStart() {
     window.location.replace('index.html');
+}
+
+function showImpressum() {
+    document.getElementById('impressum').classList.remove('hidden');
+}
+
+function hideImpressum() {
+    document.getElementById('impressum').classList.add('hidden');
+}
+
+function toggleMute() {
+    isMuted = !isMuted;
+    for (const key in sounds) {
+        sounds[key].muted = isMuted;
+    }
+        localStorage.setItem('muted', isMuted);
+        document.getElementById('btnMute').textContent = isMuted ? '🔇 Stumm' : '🔊 Ton an';
 }
 
 /**
@@ -49,6 +72,11 @@ function enterFullscreen() {
     } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
         document.documentElement.msRequestFullscreen();
     }
+}
+
+function loadLocalStorage() {
+    isMuted = localStorage.getItem('muted') === 'true' ? true : false;
+    document.getElementById('btnMute').textContent = isMuted ? '🔇 Stumm' : '🔊 Ton an';
 }
 
 window.addEventListener('keydown', (e) => {

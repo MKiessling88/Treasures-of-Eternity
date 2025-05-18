@@ -15,12 +15,16 @@ class World {
     new Interface('img/interface/stamina-energy-magic_bar_border.png', 60, 35, 100, 22.5),
     ];
     projectils = [];
+    sounds;
 
-    constructor(canvas, keyboard, level) {
+    constructor(canvas, keyboard, level, sounds) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.level = level;
+        this.sounds = sounds;
+        this,sounds.attack.volume = 0.2;
+        this.sounds.explode.volume = 0.2;
 
         this.setWorld();
         this.draw();

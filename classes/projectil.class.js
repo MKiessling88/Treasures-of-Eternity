@@ -10,7 +10,6 @@ class Projectil extends MoveableObjekt {
         'img/charakter/fire/fire8.png',
         'img/charakter/fire/fire9.png',
     ];
-    sound = new Audio('sounds/explosion.mp3');
     Y = 100;
     X = 100;
     width = 50;
@@ -32,7 +31,6 @@ class Projectil extends MoveableObjekt {
         this.startX = this.X;
         this.otherDirection = otherDirection;
         this.world = world;
-        this.sound.volume = 0.2;
 
         this.move();
         this.remove();
@@ -53,7 +51,7 @@ class Projectil extends MoveableObjekt {
                     this.colliding = true;
                     enemy.hit();
                     this.explode();
-                    this.playSound(this.sound);
+                    this.playSound(this.world.sounds.explode);
                 }
             });
             if (!this.colliding) {

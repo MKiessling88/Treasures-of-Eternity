@@ -26,9 +26,9 @@
     <link rel="icon" href="img/interface/characters.png">
 </head>
 
-<body>
+<body onload="loadLocalStorage()">
     <div id="startscreen">
-        <h1>Treasures of Eternity</h1>
+        <h1 class="h1Startscreen">Treasures of Eternity</h1>
         <img src="img/interface/play_button.png" id="startImage" alt="Spiel starten" onclick="startGame()">
         <div>
             <div>
@@ -38,6 +38,7 @@
                 <p>Space: Springen <br> X: Angriff</p>
             </div>
         </div>
+        <button id="btnMute" onclick="toggleMute()">🔊 Ton an</button>
         <button id="fullscreenButton" onclick="enterFullscreen()"></button>
         <button id="impressumButton" onclick="showImpressum()">Impressum</button>
     </div>
@@ -73,7 +74,8 @@
             </div>
         </div>
     </div>
-    <div id="impressum">
+    <div id="impressum" class="hidden">
+        <button id="btnCloseImpressum" onclick="hideImpressum()"><img src="img/interface/x_button.png"></button>
         <h1 class="h1Impressum">Impressum</h1>
         <p>Angaben gemäß § 5 DDG</p>
         <p>Max Muster - Musterberuf<br>
