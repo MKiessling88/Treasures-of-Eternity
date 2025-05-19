@@ -22,6 +22,7 @@ class EnemyProjectile extends MoveableObjekt {
     startX = this.X;
     colliding = false;
     world;
+    moveInterval;
 
     constructor(x, y, otherDirection, world) {
         super();
@@ -44,9 +45,9 @@ class EnemyProjectile extends MoveableObjekt {
      */
     move() {
         this.startX = this.X;
-        const moveInterval = setInterval(() => {
+        this.moveInterval = setInterval(() => {
             if (this.colliding) {
-                clearInterval(moveInterval);
+                clearInterval(this.moveInterval);
                 return;
             }
             if (this.otherDirection) {
@@ -60,7 +61,7 @@ class EnemyProjectile extends MoveableObjekt {
             const distance = Math.abs(this.X - this.startX);
             if (distance > 500) {
                 this.remove();
-                clearInterval(moveInterval);
+                clearInterval(this.moveInterval);
             }
         }, 1000 / 60);
     }
@@ -73,7 +74,7 @@ class EnemyProjectile extends MoveableObjekt {
         this.world.charakter.hit(25);
         this.explode();
         this.playSound(this.world.sounds.explode);
-        clearInterval(moveInterval);
+        clearInterval(this.moveInterval);
         return;
     }
 

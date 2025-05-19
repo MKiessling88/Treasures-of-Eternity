@@ -1,17 +1,17 @@
 function createLevel1() {
     return new Level(
         [
-            // new Goblin(0),
-            // new Dino(250),
-            // new Goblin(500),
-            // new Dino(750),
-            // new Goblin(1000),
-            // new Dino(1250),
-            // new Goblin(1500),
-            // new Dino(1800),
-            // new Goblin(2000),
-            // new Dino(2250),
-            // new Goblin(2500),
+            new Goblin(0),
+            new Dino(250),
+            new Goblin(500),
+            new Dino(750),
+            new Goblin(1000),
+            new Dino(1250),
+            new Goblin(1500),
+            new Dino(1800),
+            new Goblin(2000),
+            new Dino(2250),
+            new Goblin(2500),
             new Endboss(2400),
         ],
         [
