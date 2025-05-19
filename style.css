@@ -22,10 +22,8 @@ body {
     justify-content: center;
     align-items: center;
     font-family: sans-serif;
+    background-image: url('img/background/Background1.png');
     z-index: 10;
-    background-image: url(img/background/bg2.png);
-    background-size: cover;
-    background-position: center;
     text-align: center;
 }
 
@@ -46,7 +44,7 @@ body {
     width: 30px;
     height: 30px;
     background-color: transparent;
-    border: solid 1px white;
+    border: solid 1px black;
     border-radius: 5px;
     cursor: pointer;
 }
@@ -87,7 +85,7 @@ h1 {
     position: absolute;
     bottom: 2px;
     left: 45.5%;
-    color: white;
+    color: black;
     height: 20px;
     background-color: transparent;
     cursor: pointer;
@@ -273,7 +271,7 @@ canvas {
     }
 }
 
-@media screen and (min-width: 1024px) and (max-width: 1400px) {
+@media screen and (min-width: 1024px) and (max-width: 1400px) and (pointer: coarse){
     #actionButtons {
         display: block;
         margin-right: 3%;

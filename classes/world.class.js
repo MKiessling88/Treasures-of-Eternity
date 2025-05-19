@@ -24,7 +24,7 @@ class World {
         this.keyboard = keyboard;
         this.level = level;
         this.sounds = sounds;
-        this,sounds.attack.volume = 0.2;
+        this, sounds.attack.volume = 0.2;
         this.sounds.explode.volume = 0.2;
 
         this.setWorld();
@@ -48,7 +48,7 @@ class World {
         // this.charakter.resourceGenerator();
         // this.charakter.applyGravity();
     }
-    
+
     /**
      * Clears the canvas, draws all objects of the backgroundObjects, enemys and clouds arrays and the charakter.
      * Then calls itself with requestAnimationFrame to draw the next frame.
@@ -63,9 +63,8 @@ class World {
         this.addObjectsToMap(this.level.tilesets);
         this.addObjectsToMap(this.level.enemys);
         this.addObjectsToMap(this.level.collectables);
-        this.addObjectsToMap(this.projectils);
-
         this.addToMap(this.charakter);
+        this.addObjectsToMap(this.projectils);
 
         this.ctx.translate(-this.camera_X, 0);
 
@@ -195,9 +194,9 @@ class World {
     }
 
     clearAllIntervals() {
-    for (let i = 0; i < this.intervals.length; i++) {
-        clearInterval(this.intervals[i]);
+        for (let i = 0; i < this.intervals.length; i++) {
+            clearInterval(this.intervals[i]);
+        }
+        this.intervals = [];
     }
-    this.intervals = [];
-}
 }

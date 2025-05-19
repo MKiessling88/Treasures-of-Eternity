@@ -179,9 +179,9 @@ class MoveableObjekt {
      * If the object is not dead, it will animate its hurt animation and
      * reset the hurt state after 1 second.
      */
-    hit() {
+    hit(dmg) {
         if (this.life > 0 && !this.isHurt) {
-            this.life -= 10;
+            this.life -= dmg || 10;
             this.isHurt = true;
             if (this.isDead()) {
                 this.animateImagesOnce(this.Images_DEAD);
@@ -250,7 +250,7 @@ class MoveableObjekt {
      * @param {Object} obj - The object to outline, expected to have position and dimension properties.
      */
     drawFrame(ctx, obj) {
-        if (this instanceof Charakter || this instanceof Goblin || this instanceof Endboss || this instanceof Projectil || this instanceof Dino) {
+        if (this instanceof Charakter || this instanceof Goblin || this instanceof Endboss || this instanceof Projectil || this instanceof Dino || this instanceof EnemyProjectile) {
             ctx.strokeStyle = 'red';
             ctx.lineWidth = 2;
             ctx.strokeRect(

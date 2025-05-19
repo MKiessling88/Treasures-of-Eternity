@@ -44,11 +44,21 @@ class Projectil extends MoveableObjekt {
      */
     move() {
         this.startX = this.X;
+
         const moveInterval = setInterval(() => {
             if (this.colliding) {
                 clearInterval(moveInterval);
                 return;
             }
+
+            // Bewegung des Objekts
+            if (this.otherDirection) {
+                this.X -= 6;
+            } else {
+                this.X += 6;
+            }
+
+            // Überprüfung auf Kollision mit jedem Gegner
             this.world.level.enemys.forEach(enemy => {
                 if (this.isCollidingWith(enemy) && !enemy.isDead()) {
                     this.colliding = true;
@@ -59,19 +69,14 @@ class Projectil extends MoveableObjekt {
                     return; // wichtig, um nicht mehr weiter zu machen
                 }
             });
-            if (!this.colliding) {
-                if (this.otherDirection) {
-                    this.X -= 6;
-                } else {
-                    this.X += 6;
-                }
-                const distance = Math.abs(this.X - this.startX);
-                if (distance > 300) {
-                    this.remove();
-                    clearInterval(moveInterval);
-                }
+
+            // Überprüfung der zurückgelegten Distanz
+            const distance = Math.abs(this.X - this.startX);
+            if (distance > 200) {
+                this.remove();
+                clearInterval(moveInterval);
             }
-        }, 1000 / 60);
+        }, 1000 / 60); // Aktualisierung mit 60 FPS
     }
 
     /**
