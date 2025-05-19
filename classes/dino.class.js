@@ -54,12 +54,22 @@ class Dino extends MoveableObjekt {
         }, 1000);
     }
 
+    /**
+     * Starts an interval that calls the attack method every 100ms.
+     * This method is called in the constructor of this class.
+     */
     startIntervals() {
         setInterval(() => {
             this.attack();
         }, 100);
     }
 
+    /**
+     * Checks if the character is within 500px of the Dino's X position and if the Dino is not already attacking.
+     * If both conditions are met, the Dino starts attacking.
+     * @function
+     * @memberof Dino
+     */
     attack() {
         if (this.world) {
                 if (!this.isAttacking && this.world.charakter.X > this.X - 500 && !this.isDead()) {

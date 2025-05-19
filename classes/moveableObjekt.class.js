@@ -17,9 +17,7 @@ class MoveableObjekt {
 
     /**
      * Loads an image from the given path and assigns it to the Image field
-     * of this object. This method is used to load the default image of the
-     * object, and is also used by the animateImages methods to load the
-     * images for the animations.
+     * of this object.
      * @param {string} path - The path to the image file.
      */
     loadImage(path) {
@@ -29,9 +27,7 @@ class MoveableObjekt {
 
     /**
      * Loads an array of images from the given paths and assigns them to the
-     * imageCache field of this object. The images are indexed by their path.
-     * This method is used by the animateImages methods to load the images for
-     * the animations.
+     * imageCache field of this object.
      * @param {string[]} array - The array of paths to the image files.
      */
     loadImages(array) {
@@ -45,21 +41,21 @@ class MoveableObjekt {
     /**
      * Moves the object 10 pixels to the left.
      */
-    moveLeft() {
-        this.X -= 10;
+    moveLeft(speed) {
+        this.X -= speed || 10;
     }
 
     /**
      * Moves the object 10 pixels to the right.
      */
-    moveRight() {
-        this.X += 10;
+    moveRight(speed) {
+        this.X += speed || 10;
     }
 
     /**
-* Moves the goblin to the left by subtracting 0.25 from its X position every 16.7ms.
-* If the goblin is hurt or dead, the movement is paused.
-*/
+    * Moves the goblin to the left by subtracting 0.25 from its X position every 16.7ms.
+    * If the goblin is hurt or dead, the movement is paused.
+    */
     move() {
         setInterval(() => {
             if (!this.isHurt && !this.isDead()) {
@@ -79,9 +75,9 @@ class MoveableObjekt {
     }
 
     /**
-* Animates the goblin by switching between the walk images every 200ms.
-* If the goblin is hurt or dead, the animation is paused.
-*/
+    * Animates the goblin by switching between the walk images every 200ms.
+    * If the goblin is hurt or dead, the animation is paused.
+    */
     animate() {
         setInterval(() => {
             if (!this.isHurt && !this.isDead()) {
@@ -127,16 +123,14 @@ class MoveableObjekt {
     applyGravity() {
         this.world.intervals.push(setInterval(() => {
             const groundLevel = this.world.canvas.height - (this.height + 60);
-            // Wenn Spieler nicht am Boden ist
             if (!this.isOnGround() || this.speedY < 0) {
                 this.Y += this.speedY;
                 this.speedY += this.acceleration;
             } else {
-                // Spieler ist am Boden
                 this.Y = groundLevel;
                 this.speedY = 0;
             }
-        }, 1000 / 60)); // 60 FPS!
+        }, 1000 / 60));
     }
 
     /**
@@ -173,11 +167,8 @@ class MoveableObjekt {
     }
 
     /**
-     * Reduces the life of the object by 10 and sets it into the "hurt" state.
-     * If the object is dead after the hit, it will animate its death animation
-     * and remove itself from the game world.
-     * If the object is not dead, it will animate its hurt animation and
-     * reset the hurt state after 1 second.
+     * Inflicts damage on the object and updates its state to reflect being hurt.
+     * @param {number} dmg - The amount of damage to inflict on the object.
      */
     hit(dmg) {
         if (this.life > 0 && !this.isHurt) {
@@ -231,8 +222,12 @@ class MoveableObjekt {
         }, 2000);
     }
 
+    /**
+     * Plays the given audio object, even if it is already playing. To allow
+     * this, the currentTime of the audio object is set to 0 before playing.
+     * @param {Audio} Sound Audio object to be played.
+     */
     playSound(Sound) {
-        // Damit der Sound bei schnellem Drücken mehrfach funktioniert:
         Sound.currentTime = 0;
         Sound.play().catch(err => {
             console.warn("Audio konnte nicht abgespielt werden:", err);

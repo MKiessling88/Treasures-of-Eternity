@@ -1,4 +1,4 @@
-class Charakter extends MoveableObjekt {
+class Character extends MoveableObjekt {
     X = -390;
     Y = 320;
     width = 100;
@@ -74,17 +74,6 @@ class Charakter extends MoveableObjekt {
 
     /**
      * Animates the character by setting up two intervals:
-     * 1. The first interval handles the movement of the character based on keyboard inputs,
-     *    updating the character's position and direction if the character is not dead.
-     *    It checks if the RIGHT or LEFT keys are pressed and moves the character accordingly,
-     *    along with maintaining the camera position.
-     * 
-     * 2. The second interval handles the character's walking animation by switching images
-     *    if the RIGHT or LEFT keys are pressed, the character is on the ground, not dead,
-     *    not attacking, and not jumping. If the character is idle (not attacking, not dead,
-     *    not jumping, and not hurt), it resets the character's image to its default.
-     * 
-     * Both intervals run at different frame rates to ensure smooth animation and movement.
      */
     animate() {
         this.world.intervals.push(setInterval(() => {
@@ -100,7 +89,6 @@ class Charakter extends MoveableObjekt {
             }
             this.camera();
         }, 1000 / 60));
-
         this.world.intervals.push(setInterval(() => {
             if (this.world.keyboard.RIGHT && this.isOnGround() && !this.isDead() && !this.isAttacking || this.world.keyboard.LEFT && this.isOnGround() && !this.isDead() && !this.isAttacking) {
                 this.animateImages(this.Images_WALK);
@@ -112,12 +100,6 @@ class Charakter extends MoveableObjekt {
 
     /**
      * Handles the jumping behavior of the character.
-     * Sets up an interval to monitor the SPACE key and the character's state.
-     * If the SPACE key is pressed and the character is on the ground, not jumping,
-     * not dead, and not attacking, it initiates a jump by setting the vertical speed
-     * and playing the jump animation. The character's jumping state is updated accordingly.
-     * Once the character lands back on the ground and the SPACE key is not pressed,
-     * the jumping state is reset.
      */
     jump() {
         this.world.intervals.push(setInterval(() => {
@@ -138,10 +120,6 @@ class Charakter extends MoveableObjekt {
     /**
      * Handles the attacking behavior of the character.
      * Sets up an interval to monitor the X key and the character's state.
-     * If the X key is pressed, the character is not already attacking, and has at least 20 mana,
-     * it initiates an attack by reducing the mana, playing the attack animation, and firing a projectile.
-     * The character's attacking state is updated accordingly.
-     * The attacking state is reset after the animation duration.
      */
     attack() {
         this.world.intervals.push(setInterval(() => {
@@ -211,39 +189,50 @@ class Charakter extends MoveableObjekt {
         }, 1000));
     }
 
+
     /**
-     * Checks the win or lose condition for the character.
-     * If the character is dead, sets the end screen image to a losing graphic and renders the end screen.
-     * If there are no enemies left in the level, sets the end screen image to a winning graphic and renders the end screen.
+     * Checks the character's life and the endboss's life every second.
+     * If the character is dead, it shows the lose screen after a delay.
+     * If the endboss is dead and the character is not, it shows the win screen after a delay.
      */
     winOrLose() {
         const actionButtons = document.getElementById('actionButtons');
         const endscreenImage = document.getElementById('endscreenImage');
-
-        // Spiel verloren
         if (this.isDead()) {
             setTimeout(() => {
-                actionButtons?.classList.add('hidden');
-                if (endscreenImage) {
-                    endscreenImage.src = 'img/interface/knight_loose.png';
-                }
-                this.world.clearAllIntervals();
-                this.world.renderEndScreen();
-            }, 1500); // Verzögerung von 1,5 Sekunden (1500 Millisekunden)
+                this.showLoseScreen();
+            }, 1500);
             return;
         }
-
-        // Spiel gewonnen – Endboss besiegt
         const endboss = this.world.level.enemys.find(enemy => enemy instanceof Endboss);
         if (endboss && endboss.isDead()) {
             setTimeout(() => {
-                actionButtons?.classList.add('hidden');
-                if (endscreenImage) {
-                    endscreenImage.src = 'img/interface/knight_win.png';
-                }
-                this.world.clearAllIntervals();
-                this.world.renderEndScreen();
-            }, 1500); // Verzögerung von 1,5 Sekunden
+                this.showWinScreen();
+            }, 1500);
         }
+    }
+
+    /**
+     * Shows the lose screen after the character has died.
+     */
+    showLoseScreen() {
+        actionButtons?.classList.add('hidden');
+        if (endscreenImage) {
+            endscreenImage.src = 'img/interface/knight_loose.png';
+        }
+        this.world.clearAllIntervals();
+        this.world.renderEndScreen();
+    }
+
+    /**
+     * Shows the win screen after the endboss has died and the character has not.
+     */
+    showWinScreen() {
+        actionButtons?.classList.add('hidden');
+        if (endscreenImage) {
+            endscreenImage.src = 'img/interface/knight_win.png';
+        }
+        this.world.clearAllIntervals();
+        this.world.renderEndScreen();
     }
 }

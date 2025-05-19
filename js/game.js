@@ -22,6 +22,11 @@ function startGame() {
     init();
 }
 
+/**
+ * Resets the game by creating a new World instance with the same parameters as the last one,
+ * then calling the setWorld method of the World instance to set up the game again.
+ * The end screen is also hidden and the startGame method is called to show the canvas.
+ */
 function resetGame() {
     level = createLevel1();
     world = new World(canvas, keyboard, level, sounds);
@@ -48,14 +53,29 @@ function goToStart() {
     window.location.replace('index.html');
 }
 
+/**
+ * Shows the impressum screen.
+ * @function
+ * @memberof window
+ */
 function showImpressum() {
     document.getElementById('impressum').classList.remove('hidden');
 }
 
+/**
+ * Hides the impressum screen.
+ * @function
+ * @memberof window
+ */
 function hideImpressum() {
     document.getElementById('impressum').classList.add('hidden');
 }
 
+/**
+ * Toggles the mute state of the game sounds.
+ * @function
+ * @memberof window
+ */
 function toggleMute() {
     isMuted = !isMuted;
     for (const key in sounds) {
@@ -69,7 +89,6 @@ function toggleMute() {
  * Requests the browser to enter fullscreen mode for the entire document.
  * Supports various vendor-prefixed methods for compatibility with different browsers.
  */
-
 function enterFullscreen() {
     if (document.documentElement.requestFullscreen) {
         document.documentElement.requestFullscreen();
@@ -82,6 +101,9 @@ function enterFullscreen() {
     }
 }
 
+/**
+ * Restores the mute state of game sounds based on the value stored in localStorage.
+ */
 function restoreMuteState() {
     const isMuted = localStorage.getItem('muted') === 'true';
     for (const key in sounds) {

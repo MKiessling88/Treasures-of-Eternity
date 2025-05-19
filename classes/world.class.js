@@ -1,5 +1,5 @@
 class World {
-    charakter = new Charakter();
+    charakter = new Character();
     canvas;
     ctx;
     keyboard;
@@ -42,11 +42,6 @@ class World {
         this.level.enemys.forEach(enemy => {
             enemy.world = this;
         });
-        // this.charakter.animate();
-        // this.charakter.jump();
-        // this.charakter.attack();
-        // this.charakter.resourceGenerator();
-        // this.charakter.applyGravity();
     }
 
     /**
@@ -94,16 +89,16 @@ class World {
      */
     addToMap(mo) {
 
-        mo.drawFrame(this.ctx, mo);
+        //mo.drawFrame(this.ctx, mo);
 
         if (mo.otherDirection) {
             this.ctx.save();
-            this.ctx.translate(mo.X + mo.width / 2, mo.Y); // Verschiebung zum richtigen Punkt
-            this.ctx.scale(-1, 1); // Spiegeln
-            this.ctx.drawImage(mo.Image, 0, 0, mo.width, mo.height); // Bild an der richtigen Position zeichnen
+            this.ctx.translate(mo.X + mo.width / 2, mo.Y);
+            this.ctx.scale(-1, 1);
+            this.ctx.drawImage(mo.Image, 0, 0, mo.width, mo.height);
             this.ctx.restore();
         } else {
-            this.ctx.drawImage(mo.Image, mo.X, mo.Y, mo.width, mo.height); // Normales Zeichnen
+            this.ctx.drawImage(mo.Image, mo.X, mo.Y, mo.width, mo.height);
         }
     }
 
@@ -157,10 +152,8 @@ class World {
             let firstCloud = this.level.clouds[0];
             if (firstCloud.X + firstCloud.width < -740) {
                 this.level.clouds.shift();
-
                 let lastCloud = this.level.clouds[this.level.clouds.length - 1];
                 let newX = lastCloud.X + lastCloud.width;
-
                 let newCloud = new Cloud(newX);
                 this.level.clouds.push(newCloud);
             }
@@ -193,6 +186,10 @@ class World {
         document.getElementById('endscreen').classList.remove('hidden');
     }
 
+    /**
+     * Clears all intervals of the World instance, which are usually used for animations, collisions and updates.
+     * This method is called when the game is reset or when the end screen is rendered.
+     */
     clearAllIntervals() {
         for (let i = 0; i < this.intervals.length; i++) {
             clearInterval(this.intervals[i]);

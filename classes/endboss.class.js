@@ -7,9 +7,10 @@ class Endboss extends MoveableObjekt {
     offset_Width = 50;
     offset_Height = 90;
     otherDirection = true;
-    life = 30;
+    life = 50;
     enemysSpawned = false;
     world;
+    playerNearby = false;
     Images_WALK = [
         'img/endboss/walk/Walk1.png',
         'img/endboss/walk/Walk2.png',
@@ -29,6 +30,15 @@ class Endboss extends MoveableObjekt {
         'img/endboss/dead/Death3.png',
         'img/endboss/dead/Death4.png',
     ];
+    Images_ATTACK = [
+        'img/endboss/attack/physical/Attack1.png',
+        'img/endboss/attack/physical/Attack2.png',
+        'img/endboss/attack/physical/Attack3.png',
+        'img/endboss/attack/physical/Attack4.png',
+        'img/endboss/attack/physical/Attack5.png',
+        'img/endboss/attack/physical/Attack6.png',
+        'img/endboss/attack/physical/Attack7.png',
+    ];
 
 
 
@@ -38,20 +48,24 @@ class Endboss extends MoveableObjekt {
         this.loadImages(this.Images_WALK);
         this.loadImages(this.Images_HURT);
         this.loadImages(this.Images_DEAD);
+        this.loadImages(this.Images_ATTACK);
         this.X = x
         this.startX = x;
 
         this.animate();
         this.walking();
         this.hitBoxAdjustment();
+        this.detectPlayer();
+        this.targetPlayer();
+        this.attack();
     }
 
 
-/**
- * Periodically animates the Endboss by cycling through its walking images.
- * If the Endboss is not dead, it uses the walking images to create an animation effect.
- * The animation updates every 200ms, providing a frame rate of 5 frames per second.
- */
+    /**
+     * Periodically animates the Endboss by cycling through its walking images.
+     * If the Endboss is not dead, it uses the walking images to create an animation effect.
+     * The animation updates every 200ms, providing a frame rate of 5 frames per second.
+     */
     animate() {
         setInterval(() => {
             if (!this.isDead() && !this.isHurt) {
@@ -62,14 +76,10 @@ class Endboss extends MoveableObjekt {
 
     /**
      * Periodically moves the Endboss horizontally, alternating between moving left and right.
-     * The Endboss moves by 2 pixels every frame, providing a smooth motion effect.
-     * If the Endboss is not dead, it continuously moves between its start position and 200 pixels left/right of it.
-     * The movement is updated every 33ms, providing a frame rate of 30 frames per second.
-     * Additionally, the spawnEnemys() method is called every frame to spawn new enemies.
      */
     walking() {
         setInterval(() => {
-            if (!this.isDead() && !this.isHurt) {
+            if (!this.isDead() && !this.isHurt && !this.playerNearby) {
                 if (this.otherDirection) {
                     this.X -= 2;
                     if (this.X <= this.startX - 200) {
@@ -83,6 +93,60 @@ class Endboss extends MoveableObjekt {
                 }
             }
             this.spawnEnemys();
+        }, 1000 / 30);
+    }
+
+    /**
+     * Periodically checks the distance between the Endboss and the character.
+     * If the character is within 300 pixels, sets the playerNearby flag to true.
+     * Otherwise, sets the playerNearby flag to false.
+     */
+    detectPlayer() {
+        setInterval(() => {
+            if (this.world) {
+                const distance = Math.abs(this.world.charakter.X - this.X);
+                if (distance < 300) {
+                    this.playerNearby = true;
+                } else {
+                    this.playerNearby = false;
+                }
+            }
+        }, 100);
+    }
+
+    /**
+     * Periodically moves the Endboss towards the character if it is within a certain range.
+     * If the character is on the left side of the Endboss, it moves left. If the character is on the right side of the Endboss, it moves right.
+     */
+    targetPlayer() {
+        setInterval(() => {
+            if (this.playerNearby && this.world && !this.isDead() && !this.isHurt) {
+                if (this.world.charakter.X < this.X) {
+                    this.otherDirection = true;
+                    this.moveLeft(2.5);
+                } else if (this.world.charakter.X > this.X) {
+                    this.otherDirection = false;
+                    this.moveRight(2.5);
+                }
+            }
+        }, 1000 / 30);
+    }
+
+    /**
+     * Handles the attacking behavior of the Endboss.
+     */
+    attack() {
+        setInterval(() => {
+            if (this.world) {
+                const distance = Math.abs(this.world.charakter.X - this.X);
+                if (distance < 100 && !this.isAttacking && !this.isHurt && !this.isDead()) {
+                    this.isAttacking = true;
+                    this.animateImagesOnce(this.Images_ATTACK);
+                    setTimeout(() => {
+                        this.isAttacking = false;
+                    }, 5000);
+                }
+            }
         }, 1000 / 30);
     }
 
@@ -109,18 +173,15 @@ class Endboss extends MoveableObjekt {
     spawnEnemys() {
         if (this.life <= 15 && !this.enemysSpawned) {
             this.enemysSpawned = true;
-
             let minX = this.X - 100;
             let maxX = this.X + 200;
-
             for (let i = 0; i < 3; i++) {
                 setTimeout(() => {
                     let randomX = Math.floor(Math.random() * (maxX - minX + 1)) + minX;
                     let goblin = new Goblin(randomX, this.world);
                     this.world.level.enemys.push(goblin);
-                }, i * 1000); // jeder Goblin 1 Sekunde nach dem vorherigen
+                }, i * 1000);
             }
         }
     }
-
 } 

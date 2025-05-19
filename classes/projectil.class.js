@@ -21,6 +21,7 @@ class Projectil extends MoveableObjekt {
     startX = this.X;
     colliding = false;
     world;
+    moveInterval;
 
     constructor(x, y, otherDirection, world) {
         super();
@@ -44,39 +45,41 @@ class Projectil extends MoveableObjekt {
      */
     move() {
         this.startX = this.X;
-
-        const moveInterval = setInterval(() => {
+        this.moveInterval = setInterval(() => {
             if (this.colliding) {
-                clearInterval(moveInterval);
+                clearInterval(this.moveInterval);
                 return;
             }
-
-            // Bewegung des Objekts
             if (this.otherDirection) {
                 this.X -= 6;
             } else {
                 this.X += 6;
             }
-
-            // Überprüfung auf Kollision mit jedem Gegner
             this.world.level.enemys.forEach(enemy => {
                 if (this.isCollidingWith(enemy) && !enemy.isDead()) {
-                    this.colliding = true;
-                    enemy.hit();
-                    this.explode();
-                    this.playSound(this.world.sounds.explode);
-                    clearInterval(moveInterval);
-                    return; // wichtig, um nicht mehr weiter zu machen
+                    this.doProjectileHit(enemy);
                 }
             });
-
-            // Überprüfung der zurückgelegten Distanz
             const distance = Math.abs(this.X - this.startX);
             if (distance > 200) {
                 this.remove();
-                clearInterval(moveInterval);
+                clearInterval(this.moveInterval);
             }
-        }, 1000 / 60); // Aktualisierung mit 60 FPS
+        }, 1000 / 60);
+    }
+
+    /**
+     * Handles the hit event when the projectil collides with an enemy.
+     * Sets this.colliding to true, calls the enemy's hit() method, explodes the projectil, plays the explode sound and removes the projectil's move interval.
+     * @param {Enemy} enemy - The enemy that was hit.
+     */
+    doProjectileHit(enemy) {
+        this.colliding = true;
+        enemy.hit();
+        this.explode();
+        this.playSound(this.world.sounds.explode);
+        clearInterval(this.moveInterval);
+        return;
     }
 
     /**
@@ -90,16 +93,15 @@ class Projectil extends MoveableObjekt {
         }
     }
 
-
     /**
      * Animates the projectile's explosion and removes it after the animation is done.
      * The animation is started by calling animateImagesOnce() with the array of explosion images.
      * After the animation is done, the projectile is removed from the game world by calling remove() after a delay of 600ms (6 images × 100ms).
      */
     explode() {
-        this.animateImagesOnce(this.Images); // z. B. Explosionsbilder
+        this.animateImagesOnce(this.Images);
         setTimeout(() => {
             this.remove();
-        }, this.Images.length * 100); // z. B. 6 Bilder × 100ms
+        }, this.Images.length * 100);
     }
 }
