@@ -42,11 +42,11 @@ class World {
         this.level.enemys.forEach(enemy => {
             enemy.world = this;
         });
-        this.charakter.animate();
-        this.charakter.jump();
-        this.charakter.attack();
-        this.charakter.resourceGenerator();
-        this.charakter.applyGravity();
+        // this.charakter.animate();
+        // this.charakter.jump();
+        // this.charakter.attack();
+        // this.charakter.resourceGenerator();
+        // this.charakter.applyGravity();
     }
     
     /**

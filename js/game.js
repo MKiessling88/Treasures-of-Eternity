@@ -23,7 +23,6 @@ function startGame() {
 }
 
 function resetGame() {
-    console.log("Reset wurde aufgerufen");
     level = createLevel1();
     world = new World(canvas, keyboard, level, sounds);
     world.setWorld();
@@ -83,8 +82,11 @@ function enterFullscreen() {
     }
 }
 
-function loadLocalStorage() {
-    isMuted = localStorage.getItem('muted') === 'true' ? true : false;
+function restoreMuteState() {
+    const isMuted = localStorage.getItem('muted') === 'true';
+    for (const key in sounds) {
+        sounds[key].muted = isMuted;
+    }
     document.getElementById('btnMute').textContent = isMuted ? '🔇 Stumm' : '🔊 Ton an';
 }
 

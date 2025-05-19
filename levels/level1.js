@@ -4,10 +4,10 @@ function createLevel1() {
             new Dino(),
             // new Dino(),
             // new Dino(),
+            new Goblin(),
             // new Goblin(),
             // new Goblin(),
-            // new Goblin(),
-            // new Endboss(2400),
+            new Endboss(2400),
         ],
         [
             new Cloud(-740),

@@ -27,17 +27,20 @@ class Dino extends MoveableObjekt {
     offset_Height = 35;
     otherDirection = true;
     life = 10;
+    world;
 
-    constructor(x, world) {
+    constructor(x) {
         super();
         this.loadImage(this.Images_WALK[0]);
         this.loadImages(this.Images_WALK);
         this.loadImages(this.Images_HURT);
         this.loadImages(this.Images_DEAD);
-        this.world = world;
-        this.X = x ||  300 + Math.random() * 1200;
+        this.X = x || 300 + Math.random() * 1200;
         this.Y = 350;
-        this.move();
-        this.animate();
+
+        setTimeout(() => {
+            this.move();
+            this.animate();
+        }, 1000);
     }
 }

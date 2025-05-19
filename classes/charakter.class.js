@@ -63,11 +63,13 @@ class Charakter extends MoveableObjekt {
         this.loadImages(this.Images_HURT);
         this.loadImages(this.Images_ATTACK);
 
-        //this.animate();
-        //this.applyGravity();
-        //this.jump();
-        //this.attack();
-        //this.resourceGenerator();
+        setTimeout(() => {
+            this.animate();
+            this.applyGravity();
+            this.jump();
+            this.attack();
+            this.resourceGenerator();
+        }, 100);
     }
 
     /**
@@ -215,17 +217,33 @@ class Charakter extends MoveableObjekt {
      * If there are no enemies left in the level, sets the end screen image to a winning graphic and renders the end screen.
      */
     winOrLose() {
+        const actionButtons = document.getElementById('actionButtons');
+        const endscreenImage = document.getElementById('endscreenImage');
+
+        // Spiel verloren
         if (this.isDead()) {
-            document.getElementById('actionButtons').classList.add('hidden');
-            document.getElementById('endscreenImage').src = 'img/interface/knight_loose.png';
-            this.world.clearAllIntervals()
-            this.world.renderEndScreen();
+            setTimeout(() => {
+                actionButtons?.classList.add('hidden');
+                if (endscreenImage) {
+                    endscreenImage.src = 'img/interface/knight_loose.png';
+                }
+                this.world.clearAllIntervals();
+                this.world.renderEndScreen();
+            }, 1500); // Verzögerung von 1,5 Sekunden (1500 Millisekunden)
+            return;
         }
-        if (this.world.level.enemys.length === 0) {
-            document.getElementById('actionButtons').classList.add('hidden');
-            document.getElementById('endscreenImage').src = 'img/interface/knight_win.png';
-            this.world.clearAllIntervals()
-            this.world.renderEndScreen();
+
+        // Spiel gewonnen – Endboss besiegt
+        const endboss = this.world.level.enemys.find(enemy => enemy instanceof Endboss);
+        if (endboss && endboss.isDead()) {
+            setTimeout(() => {
+                actionButtons?.classList.add('hidden');
+                if (endscreenImage) {
+                    endscreenImage.src = 'img/interface/knight_win.png';
+                }
+                this.world.clearAllIntervals();
+                this.world.renderEndScreen();
+            }, 1500); // Verzögerung von 1,5 Sekunden
         }
     }
 }

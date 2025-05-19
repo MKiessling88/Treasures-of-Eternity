@@ -26,7 +26,7 @@
     <link rel="icon" href="img/interface/characters.png">
 </head>
 
-<body onload="loadLocalStorage()">
+<body onload="restoreMuteState()">
     <div id="startscreen">
         <h1 class="h1Startscreen">Treasures of Eternity</h1>
         <img src="img/interface/play_button.png" id="startImage" alt="Spiel starten" onclick="startGame()">
@@ -55,7 +55,7 @@
         </div>
     </div>
     <div id="oriantationWarning">
-        <p>Bitte drehe dein Gerät zum spielen</p>
+        <p class="oriantationWarningText">Bitte drehe dein Gerät zum spielen</p>
     </div>
     <div id="canvasContainer">
         <canvas id="canvas" width="740" height="480"></canvas>
