@@ -39,7 +39,7 @@ body {
 
 #fullscreenButton {
     position: absolute;
-    bottom: 5px;
+    top: 5px;
     right: 5px;
     width: 30px;
     height: 30px;
